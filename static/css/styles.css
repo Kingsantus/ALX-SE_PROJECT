@@ -4,6 +4,10 @@ body {
     margin: 0 auto; /* Center the body horizontally */
 }
 
+header {
+    background-color: #ffffff;
+}
+
 .selector-for-some-widget {
     box-sizing: content-box;
   }
@@ -18,4 +22,12 @@ body {
   .header-word {
     margin-left: 5px;
     margin-top: 30px;
+  }
+  .card-container {
+    width: 40rem;
+    margin: 10px;
+  }
+  .card-img {
+    height: 250px;
+    width: 0 auto;
   }
