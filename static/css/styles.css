@@ -1,0 +1,21 @@
+body {
+    box-sizing: content-box;
+    width:95%;
+    margin: 0 auto; /* Center the body horizontally */
+}
+
+.selector-for-some-widget {
+    box-sizing: content-box;
+  }
+  .img {
+    height: 40px;
+    width: 40;
+    margin-left: 10px;
+  }
+  .posts-display {
+    margin-top: 100px;
+  }
+  .header-word {
+    margin-left: 5px;
+    margin-top: 30px;
+  }
