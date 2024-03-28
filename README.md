@@ -24,24 +24,24 @@ This project is a professional and formal website designed for the purpose of re
 
 1. **Clone the Repository**: Clone this repository to your local machine using the following command:
 
-git clone https://github.com/Kingsantus/ALX-SE_PROJECT.git
+    git clone https://github.com/Kingsantus/ALX-SE_PROJECT.git
 
 2. **Install Dependencies**: Navigate to the project directory and install the required dependencies using pip:
 
-cd musical-instrument-rental
-pip install -r requirements.txt
+    cd musical-instrument-rental
+    pip install -r requirements.txt
 
 
 3. **Database Setup**: Initialize the SQLite database by running the following commands:
 
-flask db init
-flask db migrate
-flask db upgrade
+    flask db init
+    flask db migrate
+    flask db upgrade
 
 
 4. **Run the Application**: Start the Flask development server by running:
 
-flask run
+    flask run
 
 
 5. **Access the Website**: Open your web browser and navigate to `http://localhost:5000` to access the website.
