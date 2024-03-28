@@ -1,0 +1,39 @@
+body {
+    box-sizing: content-box;
+    width:95%;
+    margin: 0 auto; /* Center the body horizontally */
+}
+
+header {
+    background-color: #ffffff;
+}
+
+.selector-for-some-widget {
+    box-sizing: content-box;
+  }
+  .img {
+    height: 40px;
+    width: 40;
+    margin-left: 10px;
+  }
+  .posts-display {
+    margin-top: 100px;
+  }
+  .header-word {
+    margin-left: 5px;
+    margin-top: 30px;
+  }
+  .card-container {
+    width: 40rem;
+    margin: 10px;
+  }
+  .card-img {
+    height: 250px;
+    width: 0 auto;
+  }
+
+  .message {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+  }
