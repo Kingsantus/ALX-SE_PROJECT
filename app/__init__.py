@@ -2,11 +2,15 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+import os
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'c3f098f24c976404335b22ae39d67b92'
+load_dotenv()
+
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rent.db'
 
