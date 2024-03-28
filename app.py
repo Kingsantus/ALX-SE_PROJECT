@@ -39,7 +39,7 @@ def home():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash(f"Account created for {form.email}!", 'success')
+        flash(f"Account created for {form.email.data}!", 'success')
         return redirect(url_for('home'))
     return render_template('signup.html', form=form, title='Signup')
 

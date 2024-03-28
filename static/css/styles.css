@@ -31,3 +31,9 @@ header {
     height: 250px;
     width: 0 auto;
   }
+
+  .message {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+  }
