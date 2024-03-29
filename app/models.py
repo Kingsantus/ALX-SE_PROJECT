@@ -114,7 +114,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    verification_number = db.Column(db.Integer)
+    verification_number = db.Column(db.String(25), unique=True)
     verified_user = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     image_file = db.Column(db.String(50), nullable=False, default='default.jpg')
