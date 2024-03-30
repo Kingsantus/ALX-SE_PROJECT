@@ -2,37 +2,15 @@ import secrets, os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flask_login import login_user, current_user, logout_user, login_required
 from app.models import User, Post, Review, Agreement
-
-posts = [
-    {
-        'author': "Williams Joe",
-        'title': "Washburn Elegante S24S Bella Tono Studio",
-        'category': "Acostic",
-        'price': 5000,
-        'location': "Enugu, Nigeria",
-        'discount': 0.05,
-        'discription': "Good Sound and electrical",
-        'date_posted': "March 27, 2024"
-    },
-    {
-        'author': "Kelvin Finder",
-        'title': "Medeli Electronics AKX10 Arranger Pro Digital Workstation",
-        'category': "Keyboard",
-        'price': 10000,
-        'location': "Anambra, Nigeria",
-        'discount': 0.03,
-        'discription': "Good Sound and electrical",
-        'date_posted': "March 25, 2024"
-    }
-]
 
 @app.route("/")
 @app.route("/home")
 @app.route("/index")
 def home():
+    posts = Post.query.all()
     return render_template('index.html', posts=posts)
 
 
@@ -74,7 +52,7 @@ def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static\images\profile_pic', picture_fn)
+    picture_path = os.path.join(app.root_path, 'static\\images\\profile_pic', picture_fn)
     output_size = (125, 125)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
@@ -101,3 +79,45 @@ def account():
         form.verification_number.data = current_user.verification_number
     image_file = url_for('static', filename='images/profile_pic/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
+
+def post_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static\\images\\post_pic', picture_fn)
+    output_size = (400, 400)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_fn
+
+@app.route('/post/new', methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    picture_file = None
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = post_picture(form.picture.data)
+        post = Post(
+            title=form.title.data,
+            description=form.description.data,
+            price=form.price.data,
+            city=form.city.data,
+            category=form.category.data,
+            image_file=picture_file,
+            author=current_user.id
+        )
+
+        db.session.add(post)
+        db.session.commit()
+
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title='New Post', form=form, image_file=picture_file)
+
+@app.route('/post/<int:post_id>')
+@login_required
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)

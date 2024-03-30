@@ -1,10 +1,9 @@
 from app import db, login_manager
 from flask_login import UserMixin
-from enum import Enum as PythonEnum
-from sqlalchemy import Enum
+from enum import Enum
 from datetime import datetime
 
-class Category(PythonEnum):
+class Category(Enum):
     KEYBOARDS_SYNTHESIZERS = 'Keyboards & Synthesizers'
     ELECTRIC_GUITARS = 'Electric Guitars'
     ACOUSTIC_GUITARS = 'Acoustic Guitars'
@@ -55,9 +54,8 @@ class Category(PythonEnum):
     DJ_SOFTWARE = 'DJ Software'
     DJ_MIXERS = 'DJ Mixers'
     DJ_TURNTABLE_CARTRIDGES = 'DJ Turntable Cartridges'
-    CHOOSE = 'Choose a Category'
 
-class City(PythonEnum):
+class City(Enum):
     ABIA = 'Abia'
     ADAMAWA = 'Adamawa'
     AKWA_IBOM = 'Akwa Ibom'
@@ -96,7 +94,7 @@ class City(PythonEnum):
     YOBE = 'Yobe'
     ZAMFARA = 'Zamfara'
 
-class Rating(PythonEnum):
+class Rating(Enum):
     ZERO = 0
     ONE = 1
     TWO = 2
@@ -107,6 +105,7 @@ class Rating(PythonEnum):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -129,12 +128,12 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200), nullable=False)
-    category = db.Column(Enum(Category), default=Category.CHOOSE)
+    category = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    city = db.Column(Enum(City), default=City.FCT)
+    city = db.Column(db.String(50), nullable=False)
     country = db.Column(db.String(10), nullable=False, default='Nigeria')
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    image_file = db.Column(db.String(50), nullable=False, default='default.jpg')
+    image_file = db.Column(db.String(50), nullable=False)
     availability = db.Column(db.Boolean, nullable=False, default=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     reviews = db.relationship('Review', backref='author2', lazy=True)
@@ -146,7 +145,7 @@ class Post(db.Model):
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100), nullable=False)
-    star_rating = db.Column(Enum(Rating), default=Rating.ZERO)
+    star_rating = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 

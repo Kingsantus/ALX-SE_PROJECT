@@ -1,0 +1,121 @@
+"""class Category(Enum):
+    KEYBOARDS_SYNTHESIZERS = 'Keyboards & Synthesizers'
+    ELECTRIC_GUITARS = 'Electric Guitars'
+    ACOUSTIC_GUITARS = 'Acoustic Guitars'
+    BASS_GUITARS = 'Bass Guitars'
+    DRUM_KITS = 'Drum Kits'
+    ELECTRONIC_DRUM_MACHINES = 'Electronic Drum Machines'
+    DJ_CONTROLLERS = 'DJ Controllers'
+    TURNTABLES = 'Turntables'
+    MIXERS_AUDIO = 'Mixers (Audio)'
+    MICROPHONES = 'Microphones'
+    HEADPHONES = 'Headphones'
+    PA_SYSTEMS = 'PA Systems'
+    STUDIO_MONITORS = 'Studio Monitors'
+    STAGE_LIGHTING = 'Stage Lighting'
+    EFFECTS_PEDALS = 'Effects Pedals'
+    AUDIO_INTERFACES = 'Audio Interfaces'
+    MIDI_CONTROLLERS = 'MIDI Controllers'
+    DIGITAL_PIANOS = 'Digital Pianos'
+    STAGE_AMPLIFIERS = 'Stage Amplifiers'
+    RECORDING_EQUIPMENT = 'Recording Equipment'
+    KARAOKE_MACHINES = 'Karaoke Machines'
+    CD_PLAYERS_RECORDERS = 'CD Players & Recorders'
+    TAPE_DECKS = 'Tape Decks'
+    VINYL_RECORDS = 'Vinyl Records'
+    CABLES_CONNECTORS = 'Cables & Connectors'
+    MUSICAL_INSTRUMENT_CASES_BAGS = 'Musical Instrument Cases & Bags'
+    MUSIC_STANDS = 'Music Stands'
+    INSTRUMENT_ACCESSORIES = 'Instrument Accessories (e.g., guitar picks, drumsticks)'
+    SPEAKER_STANDS = 'Speaker Stands'
+    SUBWOOFERS = 'Subwoofers'
+    PORTABLE_PA_SYSTEMS = 'Portable PA Systems'
+    LIVE_SOUND_MIXERS = 'Live Sound Mixers'
+    WIRELESS_MICROPHONE_SYSTEMS = 'Wireless Microphone Systems'
+    IN_EAR_MONITORS = 'In-Ear Monitors'
+    DIGITAL_AUDIO_WORKSTATIONS = 'Digital Audio Workstations (DAWs)'
+    MUSIC_PRODUCTION_SOFTWARE = 'Music Production Software'
+    SAMPLE_LIBRARIES_SOUND_PACKS = 'Sample Libraries & Sound Packs'
+    SOUND_MODULES = 'Sound Modules'
+    MUSIC_PRODUCTION_CONTROLLERS = 'Music Production Controllers'
+    ANALOG_SYNTHESIZERS = 'Analog Synthesizers'
+    EFFECTS_PROCESSORS = 'Effects Processors'
+    SPEAKER_CABINETS = 'Speaker Cabinets'
+    SPEAKER_COMPONENTS = 'Speaker Components (e.g., woofers, tweeters)'
+    POWER_AMPLIFIERS = 'Power Amplifiers'
+    KARAOKE_MICROPHONES = 'Karaoke Microphones'
+    KARAOKE_SPEAKERS = 'Karaoke Speakers'
+    DJ_LIGHTING = 'DJ Lighting'
+    DJ_SOFTWARE = 'DJ Software'
+    DJ_MIXERS = 'DJ Mixers'
+    DJ_TURNTABLE_CARTRIDGES = 'DJ Turntable Cartridges'
+    CHOOSE = 'Choose a Category'"""
+
+
+Category = Enum(
+    'Category',
+    [
+        'Keyboards & Synthesizers', 'Electric Guitars', 'Acoustic Guitars', 'Bass Guitars', 'Drum Kits', 'Electronic Drum Machines', 'DJ Controllers', 'Turntables', 'Mixers (Audio)', 'Microphones', 'Headphones', 'PA Systems', 'Studio Monitors', 'Stage Lighting', 'Effects Pedals', 'Audio Interfaces', 'MIDI Controllers', 'Digital Pianos', 'Stage Amplifiers', 'Recording Equipment', 'Karaoke Machines', 'CD Players & Recorders', 'Tape Decks', 'Vinyl Records', 'Cables & Connectors', 'Musical Instrument Cases & Bags', 'Music Stands', 'Instrument Accessories (e.g., guitar picks, drumsticks)', 'Speaker Stands', 'Subwoofers', 'Portable PA Systems', 'Live Sound Mixers', 'Wireless Microphone Systems', 'In-Ear Monitors', 'Digital Audio Workstations (DAWs)', 'Music Production Software', 'Sample Libraries & Sound Packs', 'Sound Modules', 'Music Production Controllers', 'Analog Synthesizers', 'Effects Processors', 'Speaker Cabinets', 'Speaker Components (e.g., woofers, tweeters)', 'Power Amplifiers', 'Karaoke Microphones', 'Karaoke Speakers', 'DJ Lighting', 'DJ Software', 'DJ Mixers', 'DJ Turntable Cartridges', 'Choose a Category'
+    ]
+)
+
+
+City = Enum(
+    'City',
+    [
+        'ABIA', 'ADAMAWA', 'AKWA_IBOM', 'ANAMBRA', 'BAUCHI', 'BAYELSA', 'BENUE',
+        'BORNO', 'CROSS_RIVER', 'DELTA', 'EBONYI', 'EDO', 'EKITI', 'ENUGU', 'FCT',
+        'GOMBE', 'IMO', 'JIGAWA', 'KADUNA', 'KANO', 'KATSINA', 'KEBBI', 'KOGI',
+        'KWARA', 'LAGOS', 'NASARAWA', 'NIGER', 'OGUN', 'ONDO', 'OSUN', 'OYO',
+        'PLATEAU', 'RIVERS', 'SOKOTO', 'TARABA', 'YOBE', 'ZAMFARA'
+    ]
+)
+
+"""class City(Enum):
+    ABIA = 'Abia'
+    ADAMAWA = 'Adamawa'
+    AKWA_IBOM = 'Akwa Ibom'
+    ANAMBRA = 'Anambra'
+    BAUCHI = 'Bauchi'
+    BAYELSA = 'Bayelsa'
+    BENUE = 'Benue'
+    BORNO = 'Borno'
+    CROSS_RIVER = 'Cross River'
+    DELTA = 'Delta'
+    EBONYI = 'Ebonyi'
+    EDO = 'Edo'
+    EKITI = 'Ekiti'
+    ENUGU = 'Enugu'
+    FCT = 'FCT'
+    GOMBE = 'Gombe'
+    IMO = 'Imo'
+    JIGAWA = 'Jigawa'
+    KADUNA = 'Kaduna'
+    KANO = 'Kano'
+    KATSINA = 'Katsina'
+    KEBBI = 'Kebbi'
+    KOGI = 'Kogi'
+    KWARA = 'Kwara'
+    LAGOS = 'Lagos'
+    NASARAWA = 'Nasarawa'
+    NIGER = 'Niger'
+    OGUN = 'Ogun'
+    ONDO = 'Ondo'
+    OSUN = 'Osun'
+    OYO = 'Oyo'
+    PLATEAU = 'Plateau'
+    RIVERS = 'Rivers'
+    SOKOTO = 'Sokoto'
+    TARABA = 'Taraba'
+    YOBE = 'Yobe'
+    ZAMFARA = 'Zamfara' """
+
+Rating = Enum('Rating', [0, 1, 2, 3, 4, 5])
+
+""" class Rating(Enum):
+    ZERO = 0
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    FOUR = 4
+    FIVE = 5 """
