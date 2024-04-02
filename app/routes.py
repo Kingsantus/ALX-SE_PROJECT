@@ -1,16 +1,15 @@
 import secrets, os
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flask_login import login_user, current_user, logout_user, login_required
 from app.models import User, Post, Review, Agreement
 
 @app.route("/")
-@app.route("/home")
 @app.route("/index")
-def home():
-    posts = Post.query.all()
+def index():
+    posts = Post.query.order_by(Post.date_posted.desc()).limit(10).all()
     return render_template('index.html', posts=posts)
 
 
@@ -58,6 +57,12 @@ def save_picture(form_picture):
     i.thumbnail(output_size)
     i.save(picture_path)
     return picture_fn
+
+@app.route("/home")
+@login_required
+def home():
+    posts = Post.query.all()
+    return render_template('home.html', posts=posts)
 
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -114,10 +119,22 @@ def new_post():
 
         flash('Your post has been created!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_post.html', title='New Post', form=form, image_file=picture_file)
+    return render_template('create_post.html', title='New Post', form=form, image_file=picture_file, legend='New Post')
 
 @app.route('/post/<int:post_id>')
 @login_required
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
+
+@app.route('/post/<int:post_id>/update')
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    picture_file = None
+    form.title.data = post.title
+    form.description.data = post.description
+    return render_template('create_post.html', title='Update Post', form=form, image_file=picture_file, legend='Update Post')

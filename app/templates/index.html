@@ -1,18 +1,82 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
-  <div class="posts-display">
-    {% for post in posts %}
-      <div class="card card-container">
-        <div class="card-body">
-          <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" alt="post_image" class="post-img">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='images/profile_pic/' + post.author.image_file) }}" alt="">
-          <h3 class="card-title">{{ post.title }} category {{ post.category }}</h3>
-          <p card-text><b>{{ post.author.first_name }} {{ post.author.last_name }}</b> on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
-          <p card-text>{{ post.description }}</p>
-          <p card-text>Price: ₦{{ post.price }} at {{ post.city }}, {{ post.country }}</p>
-          <a href="#" class="btn btn-primary">Rent</a>
+    <section class="home">
+        <img src="{{ url_for('static', filename='images/website_pic/header/africa-drum.jpg') }}" class="picture-slide active">
+        <img src="{{ url_for('static', filename='images/website_pic/header/guiter.jpg') }}" class="picture-slide">
+        <img src="{{ url_for('static', filename='images/website_pic/header/piano.jpg') }}" class="picture-slide">
+        <img src="{{ url_for('static', filename='images/website_pic/header/trumpet.jpg') }}" class="picture-slide">
+        <img src="{{ url_for('static', filename='images/website_pic/header/band.jpg') }}" class="picture-slide">
+        
+        <div class="content">
+            <h1>Find The <br />Best Equipment</h1>
+            <p>Your premier destination for your music equipment rentals. Rent out and also rent others' instruments. Embrace the rhythm of sharing and let your creativity soar with Melody Rental.<br /> <span>Get ready to make music magic. Welcome aboard!</span></p>
+            <a href="{{ url_for('register') }}">Get Started Today</a>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+        <div class="slider-navigation">
+            <div class="nav-btn active"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+        </div>
+    </section>
+    <section class="section-container">
+        <h2 class="section_header">Latest Equipment For Your Melody</h2>
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+            <!-- Slides -->
+                {% for post in posts %}
+                    <div class="swiper-slide">
+                        <div class="popular_grid">
+                            <div class="popular_card">
+                                <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" alt="popular">
+                                <p>{{ post.title }}</p>
+                                <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+                                <div class="price">Daily start from:<span>{{ post.price }}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="section-container register_container">
+        <div class="register_grid">
+            <div class="register_content">
+                <h4>Register to start Renting</h4>
+                <div class="register_btn">
+                    <button class="btn"><a href="{{ url_for('register') }}">Get Started Now</a></button>
+                </div>
+            </div>
+            <div class="register_image">
+                <img src="{{ url_for('static', filename='images/website_pic/music.png') }}" alt="register">
+            </div>
+        </div>
+    </section>
+    <section class="section-container">
+        <h2 class="section_header">What Others Say</h2>
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+            <!-- Slides -->
+                <div class="swiper-slide">
+                    <div class="client_card">
+                        <p>
+                            MelodyRental.com offers a diverse selection of top-quality musical instruments for hassle-free rental experiences. With transparent policies and responsive customer support, it's the go-to destination for musicians seeking reliable instrument rentals.
+                        </p>
+                        <div class="client_footer">
+                            <div>
+                                <h4>Name of customer</h4>
+                                <h5>city, Country</h5>
+                            </div>
+                            <span><i class="ri-double-quotes-r"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
