@@ -231,6 +231,71 @@ section {
     color: var(--text-dark);
 }
 
+.container .title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.container-box {
+    display: grid;
+    grid-template-columns: 55% 40%;
+    gap: 5%;
+}
+
+.content-about article {
+    width: 100%;
+}
+
+.image-section {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    padding: 2px 20px;
+    transition: transform 0.3s ease;
+}
+
+.image-section:hover {
+    transform: scale(1.05);
+}
+
+.image-section img {
+    width: 300px;
+    height: 300px;
+}
+
+.content-about .article h3 {
+    font-size: 17px;
+}
+
+.content-about .article p {
+    font-size: 18px;
+    margin-top: 20px;
+    line-height: 1.5;
+    color: var(--text-light);
+}
+
+.content-about .article .button {
+    margin-top: 50px;
+}
+
+.content-about .article .button a {
+    text-decoration: none;
+    padding: 20px 45px;
+    background-color: var(--text-dark);
+    border-radius: 5px;
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.content-about .article .button a:hover {
+    background-color: var(--text-light);
+    transition: 1s ease;
+}
+
 .swiper {
     padding-block: 2rem;
     width: 100%;
@@ -491,10 +556,19 @@ section {
     /* .popular_grid {
         grid-template-columns: repeat(2, 1fr);
     } */
+
+    .container-box {
+        grid-template-columns: 1fr;
+    }
+
+    .image-section img {
+        width: 100%;
+        height: 100%;
+    }
     
 }
 
-@media (width < 750px) {
+@media (width < 850px) {
     .register_image img {
         position: absolute;
         max-width: 350px;
@@ -503,6 +577,16 @@ section {
         transform: translateX(-50%);
     }
 
+}
+
+@media (width < 750px) {
+    .register_image {
+        display: none;
+    }
+
+    .content-about .article .button {
+        text-align: center;
+    }
 }
 
 @media (width < 650px) {
@@ -515,7 +599,62 @@ section {
         display: grid;
         gap: 1rem;
     }
+
+    .section-container {
+        padding: 40px 60px;
+    }
 }
+
+.about-page {
+    background-color: var(--white);
+    padding: 10px 20px;
+    line-height: 2;
+    margin-bottom: 10px;
+}
+
+.about-page p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.about-pages {
+    background-color: var(--white);
+    padding: 10px 20px;
+    line-height: 2;
+    margin-bottom: 10px;
+}
+
+.about-pages h2, h3 {
+    margin-bottom: 8px;
+}
+
+
+/* Style for paragraphs in about-pages */
+.about-pages p {
+    color: var(--text-dark);
+    line-height: 1.8;
+    font-size: .95rem;
+    font-weight: 400;
+}
+
+/* Style for unordered list in about-pages */
+.about-pages ul {
+    list-style-type: none;
+    padding: 0 20px;
+}
+
+/* Style for list items in about-pages */
+.about-pages li {
+    margin-bottom: 10px;
+    color: var(--text-light);
+}
+
+/* Style for span in list items */
+.about-pages li span {
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
 
 .selector-for-some-widget {
     box-sizing: content-box;

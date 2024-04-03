@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base1.html' %}
 {% block content %}
     <section class="home">
         <img src="{{ url_for('static', filename='images/website_pic/header/africa-drum.jpg') }}" class="picture-slide active">
@@ -9,7 +9,7 @@
         
         <div class="content">
             <h1>Find The <br />Best Equipment</h1>
-            <p>Your premier destination for your music equipment rentals. Rent out and also rent others' instruments. Embrace the rhythm of sharing and let your creativity soar with Melody Rental.<br /> <span>Get ready to make music magic. Welcome aboard!</span></p>
+            <p>Your premier destination for your music equipment rentals. Rent out and also rent others' instruments. Embrace the rhythm of sharing and let your creativity soar with Quality Equipment.<br /> <span>Get ready to make music magic. Welcome aboard!</span></p>
             <a href="{{ url_for('register') }}">Get Started Today</a>
         </div>
         <div class="slider-navigation">
@@ -18,6 +18,28 @@
             <div class="nav-btn"></div>
             <div class="nav-btn"></div>
             <div class="nav-btn"></div>
+        </div>
+    </section>
+    <section class="section-container">
+        <div class="container">
+            <div class="title">
+                <h1>About Us</h1>
+            </div>
+            <div class="container-box">
+                <div class="content-about">
+                    <div class="article">
+                        <h3>At Instrulend, we understand the challenges that artists and DJs face when pursuing their passion. The cost of high-quality equipment can be a barrier for many, preventing them from fully engaging in their craft.</h3>
+                        <p>We believe that everyone should have the opportunity to express themselves creatively, regardless of financial constraints. That's why we created Instrulend - a peer-to-peer rental platform designed to empower musicians and performers of all levels.</p>
+                        <div class="button">
+                            <a href="{{ url_for('about') }}">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-section">
+                    <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" alt="about">
+                </div>
+            </div>
+            
         </div>
     </section>
     <section class="section-container">
