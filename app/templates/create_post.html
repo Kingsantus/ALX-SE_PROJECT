@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="content-section posts-display">
+<section class="section-form">
+    <div class="form-container">
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">{{ legend }}</legend>
-                <div class="form-group">
+            <h2>{{ legend }}</h2>
+            <fieldset class="input-box">
+                <div class="input-box">
                     {{ form.title.label(class='form-check-label') }}
                     {% if form.title.error %}
                         {{ form.title(class="form-control form-control-lg is-invalid") }}
@@ -18,7 +19,7 @@
                         {{ form.title(class='form-control form-control-lg') }}
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="input-box">
                     {{ form.description.label(class='form-check-label') }}
                     {% if form.description.error %}
                         {{ form.description(class="form-control form-control-lg is-invalid") }}
@@ -31,7 +32,7 @@
                         {{ form.description(class='form-control form-control-lg') }}
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="input-box">
                     {{ form.category.label(class='form-check-label') }}
                     {% if form.category.error %}
                         {{ form.category(class="form-control form-control-lg is-invalid") }}
@@ -44,7 +45,7 @@
                         {{ form.category(class='form-control form-control-lg') }}
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="input-box">
                     {{ form.city.label(class='form-check-label') }}
                     {% if form.city.error %}
                         {{ form.city(class="form-control form-control-lg is-invalid") }}
@@ -57,7 +58,7 @@
                         {{ form.city(class='form-control form-control-lg') }}
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="input-box">
                     {{ form.price.label(class='form-check-label') }}
                     {% if form.price.error %}
                         {{ form.price(class="form-control form-control-lg is-invalid") }}
@@ -70,7 +71,7 @@
                         {{ form.price(class='form-control form-control-lg') }}
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="input-box">
                     {{ form.picture.label() }}
                     {{ form.picture(class="form-control-file") }}
                     {% if form.picture.errors %}
@@ -80,9 +81,10 @@
                     {% endif %}
                 </div>
             </fieldset>
-            <div class="form-group">
+            <div class="input-box">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
-          </form>
+        </form>
     </div>
+</section>
 {% endblock %}

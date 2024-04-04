@@ -51,6 +51,8 @@
     DJ_TURNTABLE_CARTRIDGES = 'DJ Turntable Cartridges'
     CHOOSE = 'Choose a Category'"""
 
+MelodyRental.com offers a diverse selection of top-quality musical instruments for hassle-free rental experiences. With transparent policies and responsive customer support, it's the go-to destination for musicians seeking reliable instrument rentals.
+
 
 Category = Enum(
     'Category',

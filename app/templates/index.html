@@ -56,7 +56,7 @@
                                 <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" alt="popular">
                                 <p>{{ post.title }}</p>
                                 <h4>{{ post.author.first_name }} {{ post.author.last_name }}</h4>
-                                <div class="price">Daily start from:<span>{{ post.price }}</span></div>
+                                <div class="price">Daily start from:<span>₦ {{ post.price }}</span></div>
                             </div>
                         </div>
                     </div>
@@ -84,20 +84,22 @@
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
             <!-- Slides -->
-                <div class="swiper-slide">
-                    <div class="client_card">
-                        <p>
-                            MelodyRental.com offers a diverse selection of top-quality musical instruments for hassle-free rental experiences. With transparent policies and responsive customer support, it's the go-to destination for musicians seeking reliable instrument rentals.
-                        </p>
-                        <div class="client_footer">
-                            <div>
-                                <h4>Name of customer</h4>
-                                <h5>city, Country</h5>
+                {% for exp in experiences %}
+                    <div class="swiper-slide">
+                        <div class="client_card">
+                            <p>
+                                {{ exp.content }}
+                            </p>
+                            <div class="client_footer">
+                                <div>
+                                    <h4>{{ exp.author6.first_name }} {{ exp.author6.last_name }}</h4>
+                                    <h5>{{ exp.author6.city}}, {{ exp.author6.country }}</h5>
+                                </div>
+                                <span><i class="ri-double-quotes-r"></i></span>
                             </div>
-                            <span><i class="ri-double-quotes-r"></i></span>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

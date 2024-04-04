@@ -2,15 +2,16 @@ import secrets, os
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ExpirenceForm
 from flask_login import login_user, current_user, logout_user, login_required
-from app.models import User, Post, Review, Agreement
+from app.models import User, Post, Review, Agreement, Expirence
 
 @app.route("/")
 @app.route("/index")
 def index():
     posts = Post.query.order_by(Post.date_posted.desc()).limit(10).all()
-    return render_template('index.html', posts=posts)
+    experiences = Expirence.query.filter(Expirence.star_rating >= 4).order_by(Expirence.star_rating.desc()).limit(10).all()
+    return render_template('index.html', posts=posts, experiences=experiences)
 
 @app.route("/about")
 def about():
@@ -24,7 +25,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password=hashed_password)
+        user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, phone_number=form.phone_number.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f"Your account has been created! You are now able to log in", 'success')
@@ -51,6 +52,12 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@app.route("/home")
+@login_required
+def home():
+    posts = Post.query.all()
+    return render_template('home.html', posts=posts)
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -62,12 +69,6 @@ def save_picture(form_picture):
     i.save(picture_path)
     return picture_fn
 
-@app.route("/home")
-@login_required
-def home():
-    posts = Post.query.all()
-    return render_template('home.html', posts=posts)
-
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
@@ -78,6 +79,7 @@ def account():
             current_user.image_file = picture_file
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
+        current_user.city = form.city.data
         current_user.verification_number = form.verification_number.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
@@ -85,6 +87,7 @@ def account():
     elif request.method == 'GET':
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name
+        form.city.data = current_user.city
         form.verification_number.data = current_user.verification_number
     image_file = url_for('static', filename='images/profile_pic/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
@@ -108,15 +111,15 @@ def new_post():
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = post_picture(form.picture.data)
-        post = Post(
-            title=form.title.data,
-            description=form.description.data,
-            price=form.price.data,
-            city=form.city.data,
-            category=form.category.data,
-            image_file=picture_file,
-            author=current_user.id
-        )
+            post = Post(
+                title=form.title.data,
+                description=form.description.data,
+                price=form.price.data,
+                city=form.city.data,
+                category=form.category.data,
+                image_file=picture_file,
+                author=current_user
+            )
 
         db.session.add(post)
         db.session.commit()
@@ -142,3 +145,22 @@ def update_post(post_id):
     form.title.data = post.title
     form.description.data = post.description
     return render_template('create_post.html', title='Update Post', form=form, image_file=picture_file, legend='Update Post')
+
+@app.route('/expirence/new', methods=['GET', 'POST'])
+@login_required
+def expirence():
+    form = ExpirenceForm()
+    if form.validate_on_submit():
+        expirence = Expirence(
+            star_rating=form.rating.data,
+            content=form.content.data,
+            author6=current_user
+        )
+        
+        db.session.add(expirence)
+        db.session.commit()
+
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    
+    return render_template('expirence.html', title='New Post', form=form, legend='New Post')

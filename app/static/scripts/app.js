@@ -69,6 +69,27 @@ ScrollReveal().reveal(".content a", {
     delay: 1000,
 });
 
+ScrollReveal().reveal(".image-section img", {
+    ...scrollRevealOption,
+    delay: 500,
+});
+
+ScrollReveal().reveal(".content-about .article h3", {
+    ...scrollRevealOption,
+    delay: 500,
+});
+
+ScrollReveal().reveal(".content-about .article p", {
+    ...scrollRevealOption,
+    delay: 700,
+});
+
+ScrollReveal().reveal(".content-about .button a", {
+    ...scrollRevealOption,
+    delay: 1000,
+});
+
+
 ScrollReveal().reveal(".popular_card", {
     ...scrollRevealOption,
     interval: 500,
@@ -97,3 +118,19 @@ const swiper = new Swiper(".swiper", {
         disableOnInteraction: false, // Set to true if you want to stop autoplay on user interaction
     }
 })
+
+const stars = document.querySelector('.stars');
+
+stars.addEventListener('click', (event) => {
+  const clickedStar = event.target;
+  if (!clickedStar.classList.contains('star')) return;  // Ignore clicks outside stars
+
+  const ratingValue = clickedStar.dataset.value;
+  //console.log(`Selected Rating: ${ratingValue}`);
+  const ratingInput = document.querySelector('input[name="rating"]'); // Assuming a hidden field
+  ratingInput.value = ratingValue;
+
+  // Update visual feedback (optional)
+  stars.querySelectorAll('.star').forEach(star => star.classList.remove('active'));
+  clickedStar.classList.add('active');
+});

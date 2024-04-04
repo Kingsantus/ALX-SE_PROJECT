@@ -112,6 +112,9 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
+    phone_number = db.Column(db.String(15), unique=True, nullable=False)
+    city = db.Column(db.String(50))
+    country = db.Column(db.String(10), nullable=False, default='Nigeria')
     password = db.Column(db.String(60), nullable=False)
     verification_number = db.Column(db.String(25), unique=True)
     verified_user = db.Column(db.Boolean, nullable=False, default=False)
@@ -120,6 +123,7 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
     reviews = db.relationship('Review', backref='author1', lazy=True)
     rented = db.relationship('Agreement', backref='author4', lazy=True)
+    expirence = db.relationship('Expirence', backref='author6', lazy=True)
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.image_file}')"
@@ -162,3 +166,12 @@ class Agreement(db.Model):
 
     def __repr__(self) -> str:
         return f"Agreement('{self.returned}')"
+    
+class Expirence(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(200), nullable=False)
+    star_rating = db.Column(db.Integer, default=0)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Review('{self.content}')"

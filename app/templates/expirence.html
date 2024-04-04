@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section-form">
+    <div class="form-container">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <h2>Describe Your Experience with InstruLend</h2>
+        <fieldset class="input-box">
+            <div class="input-box">
+                {{ form.content.label(class='form-check-label') }}
+                {% if form.content.error %}
+                    {{ form.content(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.content.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.content(class='form-control form-control-lg') }}
+                {% endif %}
+            </div>
+            <div class="input-box">
+                <label class="form-label">Rate us from 1 to 5 stars</label>
+                <div class="stars" data-rating="{{ form.rating.data }}">  <i class="star fas fa-star" data-value="1"></i>
+                  <i class="star fas fa-star" data-value="2"></i>
+                  <i class="star fas fa-star" data-value="3"></i>
+                  <i class="star fas fa-star" data-value="4"></i>
+                  <i class="star fas fa-star" data-value="5"></i>
+                </div>
+                <input type="hidden" name="rating">
+            </div>
+        </fieldset>
+        <div class="input-box">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+    </div>
+</section>
+{% endblock %}

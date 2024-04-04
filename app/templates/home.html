@@ -1,18 +1,86 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="posts-display">
-    {% for post in posts %}
-      <div class="card card-container">
-        <div class="card-body">
-          <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" alt="post_image" class="post-img">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='images/profile_pic/' + post.author.image_file) }}" alt="">
-          <h3 class="card-title"><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a> category: {{ post.category }}</h3>
-          <p card-text><b>{{ post.author.first_name }} {{ post.author.last_name }}</b> on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
-          <p card-text>{{ post.description }}</p>
-          <p card-text>Price: ₦{{ post.price }} at {{ post.city }}, {{ post.country }}</p>
-          <a href="#" class="btn btn-primary">Rent</a>
-        </div>
+  <div class="container-home">
+    <!--    main content  -->
+    <div class="main-content">
+      <div class="sort-by">
+        <hr>
+        <p>Sort by: <span>Latest</span></p>
       </div>
-    {% endfor %}
+      {% for post in posts %}
+        <div class="post-container">
+          <div class="post-author">
+            <img src="{{ url_for('static', filename='images/profile_pic/' + post.author.image_file) }}" alt="">
+            <div>
+              <h1>{{ post.author.first_name }} {{ post.author.last_name }}</h1>
+              <small>{{ post.city }}, {{ post.country }}</small>
+              <small>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+          </div>
+          <h1><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a>  Price: {{ post.price }}<span>category: {{ post.category }}</span></h1>
+          <p>{{ post.description }}</p>
+          <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" width="100%">
+          <div class="post-stats">
+            <div>
+              <span class="Reviewed"><a href="#">11 Reviewed &middot;</a></span>
+            </div>
+          </div>
+          <div class="post-activity">
+            {% if current_user.id != post.author.id %}
+              <div><a href="#">Rent</a></div>
+              <div><a href="#">Review</a></div>
+            {% else %}
+              <div><a href="#">Update</a></div>
+              <div><a href="#">Delete</a></div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!--  right side bar -->
+    <div class="right-sidebar">
+      <div class="sidebar-activity">
+        <h3>Recent By State</h3>
+        <a href="#"><i class="ri-refresh-line"></i>Abia</a>
+        <a href="#"><i class="ri-refresh-line"></i>Adamawa</a>
+        <a href="#"><i class="ri-refresh-line"></i>Akwa Ibom</a>
+        <a href="#"><i class="ri-refresh-line"></i>Anambra</a>
+        <a href="#"><i class="ri-refresh-line"></i>Bauchi</a>
+        <a href="#"><i class="ri-refresh-line"></i>Bayelsa</a>
+        <a href="#"><i class="ri-refresh-line"></i>Benue</a>
+        <a href="#"><i class="ri-refresh-line"></i>Borno</a>
+        <a href="#"><i class="ri-refresh-line"></i>Cross River</a>
+        <a href="#"><i class="ri-refresh-line"></i>Delta</a>
+        <a href="#"><i class="ri-refresh-line"></i>Ebonyi</a>
+        <a href="#"><i class="ri-refresh-line"></i>Ekiti</a>
+        <a href="#"><i class="ri-refresh-line"></i>Enugu</a>
+        <a href="#"><i class="ri-refresh-line"></i>FCT</a>
+        <a href="#"><i class="ri-refresh-line"></i>Gombe</a>
+        <a href="#"><i class="ri-refresh-line"></i>Imo</a>
+        <a href="#"><i class="ri-refresh-line"></i>Jigawa</a>
+        <a href="#"><i class="ri-refresh-line"></i>Kaduna</a>
+        <a href="#"><i class="ri-refresh-line"></i>Kano</a>
+        <a href="#"><i class="ri-refresh-line"></i>Kastina</a>
+        <a href="#"><i class="ri-refresh-line"></i>Kebbi</a>
+        <a href="#"><i class="ri-refresh-line"></i>Kogi</a>
+        <a href="#"><i class="ri-refresh-line"></i>Kwara</a>
+        <a href="#"><i class="ri-refresh-line"></i>Lagos</a>
+        <a href="#"><i class="ri-refresh-line"></i>Nasarawa</a>
+        <a href="#"><i class="ri-refresh-line"></i>Niger</a>
+        <a href="#"><i class="ri-refresh-line"></i>Ogun</a>
+        <a href="#"><i class="ri-refresh-line"></i>Ondo</a>
+        <a href="#"><i class="ri-refresh-line"></i>Osun</a>
+        <a href="#"><i class="ri-refresh-line"></i>Oyo</a>
+        <a href="#"><i class="ri-refresh-line"></i>Plateau</a>
+        <a href="#"><i class="ri-refresh-line"></i>Rivers</a>
+        <a href="#"><i class="ri-refresh-line"></i>Sokoto</a>
+        <a href="#"><i class="ri-refresh-line"></i>Taraba</a>
+        <a href="#"><i class="ri-refresh-line"></i>Yobe</a>
+        <a href="#"><i class="ri-refresh-line"></i>Zamfara</a>
+      </div>
+      <div class="review-us">
+        <a href="{{ url_for('expirence') }}">Tell Us your Expirence so far</a>
+      </div>
+    </div>
   </div>
 {% endblock %}
