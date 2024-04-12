@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="message-container">
+        <div class="chat-area">
+            <div class="chat-header">
+                <h3>My messages</h3>
+                <i class="ri-menu-line"></i>
+            </div>
+            <div class="chat-body">
+                <div class="chat-popup active">
+                    <div class="imgbox">
+                        <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="pp">
+                    </div>
+                    <div class="details">
+                        <div class="listhead">
+                            <h4>Asogwa Kingsantus</h4>
+                            <p class="time">10:45</p>
+                        </div>
+                        <div class="message-para">
+                            <p>Hello Emeka, I will come and get my properties today</p>
+                            <b>1</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-popup unread">
+                    <div class="imgbox">
+                        <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="pp">
+                    </div>
+                    <div class="details">
+                        <div class="listhead">
+                            <h4>Asogwa Kingsantus</h4>
+                            <p class="time">10:45</p>
+                        </div>
+                        <div class="message-para">
+                            <p>Hello Emeka, I will come and get my properties today</p>
+                            <b>1</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="message-area">
+            <div class="message-header">
+                <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="pp">
+                <h3><a href="#">Asogwa Kingsantus</a></h3>
+                <i class="ri-more-2-fill"></i>
+            </div>
+            <div class="message-outline"></div>
+            <div class="message-footer"></div>
+        </div>
+    </div>
+{% endblock %}

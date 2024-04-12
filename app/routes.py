@@ -164,3 +164,8 @@ def expirence():
         return redirect(url_for('home'))
     
     return render_template('expirence.html', title='New Post', form=form, legend='New Post')
+
+@app.route('/message', methods=['GET', 'POST'])
+#@login_required
+def message():
+    return render_template('message.html', title='Message')
