@@ -134,3 +134,4 @@ stars.addEventListener('click', (event) => {
   stars.querySelectorAll('.star').forEach(star => star.classList.remove('active'));
   clickedStar.classList.add('active');
 });
+

@@ -1,52 +1,134 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="message-container">
-        <div class="chat-area">
-            <div class="chat-header">
-                <h3>My messages</h3>
-                <i class="ri-menu-line"></i>
+<div class="chat-section">
+    <div class="chat-container">
+        <div class="chat-content">
+            <div class="content-sidebar">
+                <div class="content-sidebar-title">My messages</div>
+                <form action="" class="content-sidebar-form">
+                    <input type="search" class="content-sidebar-input" placeholder="Search...">
+                    <button class="content-sidebar-submit"><i class="ri-search-line"></i></button>
+                </form>
+                <div class="content-messages">
+                    <ul class="content-messages-list">
+                        <li class="content-message-title"><span>Recently</span></li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Asogwa Kingsantus</span>
+                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="chat-body">
-                <div class="chat-popup active">
-                    <div class="imgbox">
-                        <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="pp">
-                    </div>
-                    <div class="details">
-                        <div class="listhead">
-                            <h4>Asogwa Kingsantus</h4>
-                            <p class="time">10:45</p>
-                        </div>
-                        <div class="message-para">
-                            <p>Hello Emeka, I will come and get my properties today</p>
-                            <b>1</b>
+            <div class="conversation">
+                <div class="conversation-top">
+                    <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>
+                    <div class="conversation-user">
+                        <img class="conversation-user-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+                        <div>
+                            <div class="conversation-user-name">Asogwa Kingsantus</div>
                         </div>
                     </div>
                 </div>
-                <div class="chat-popup unread">
-                    <div class="imgbox">
-                        <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="pp">
-                    </div>
-                    <div class="details">
-                        <div class="listhead">
-                            <h4>Asogwa Kingsantus</h4>
-                            <p class="time">10:45</p>
-                        </div>
-                        <div class="message-para">
-                            <p>Hello Emeka, I will come and get my properties today</p>
-                            <b>1</b>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-        <div class="message-area">
-            <div class="message-header">
-                <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="pp">
-                <h3><a href="#">Asogwa Kingsantus</a></h3>
-                <i class="ri-more-2-fill"></i>
-            </div>
-            <div class="message-outline"></div>
-            <div class="message-footer"></div>
         </div>
     </div>
+</div>
 {% endblock %}
