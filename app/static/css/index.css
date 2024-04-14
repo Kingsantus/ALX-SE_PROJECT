@@ -77,7 +77,7 @@ header a img {
 }
 
 section {
-    padding: 100px 120px 70px;
+    padding: 100px 120px;
 }
 
 .section-form {
@@ -1219,6 +1219,7 @@ fieldset {
 .content-message-info {
     display: grid;
     margin-right: 12px;
+    width: 100%;
 }
 
 .content-message-name {
@@ -1262,6 +1263,12 @@ fieldset {
     padding-left: 300px;
     display: flex;
     flex-direction: column;
+    display: none;
+}
+
+.conversation.active {
+    display: flex;
+    flex-direction: column;
 }
 
 .conversation-top {
@@ -1277,13 +1284,13 @@ fieldset {
     height: 32px;
     width: 32px;
     outline: none;
-    display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
     cursor: pointer;
     color: var(--text-light);
     margin-right: 12px;
+    display: none;
 }
 
 .conversation-back:hover {
@@ -1347,6 +1354,7 @@ fieldset {
 
 .conversation-main {
     overflow-y: auto;
+    overflow-x: hidden;
     height: 100%;
     padding: 16px;
 }
@@ -1391,7 +1399,7 @@ fieldset {
 }
 
 .conversation-item-box {
-    max-width: 540px;
+    max-width: 640px;
     position: relative;
     margin-left: auto;
 }
@@ -1408,6 +1416,12 @@ fieldset {
     font-size: 14px;
     border-radius: 6px;
     line-height: 1.5;
+    margin-left: 32px;
+}
+
+.conversation-item.me .conversation-item-text {
+    margin-left: unset;
+    margin-right: 32px;
 }
 
 .conversation-item.me .conversation-item-text {
@@ -1432,14 +1446,15 @@ fieldset {
 .conversation-item-dropdown {
     position: absolute;
     top: 0;
-    right: calc(100% + 8px);
+    left: 0;
     opacity: 0;
     visibility: hidden;
     transition: all .15s ease-in-out;
 }
 
 .conversation-item.me .conversation-item-dropdown {
-    left: calc(100% + 8px);
+    left: unset;
+    right: 0;
 } 
 
 .conversation-item-wrapper:hover .conversation-item-dropdown {
@@ -1486,6 +1501,11 @@ fieldset {
     transform: scale(.9);
     transform-origin: left top;
     transition: all .15 ease-in-out;
+}
+
+.conversation-item.me .conversation-item-dropdown-list {
+    left: unset;
+    right: 0;
 }
 
 .conversation-item-dropdown.active .conversation-item-dropdown-list {
@@ -1549,12 +1569,14 @@ conversation-item-dropdown-list a i {
     padding: 8px 16px;
     background-color: var(--white);
     display: flex;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .conversation-form-group {
     width: 100%;
     position: relative;
+    margin-left: 16px;
+    margin-right: 16px;
 }
 
 .conversation-form-input {
@@ -1562,18 +1584,21 @@ conversation-item-dropdown-list a i {
     border: 1px solid #a9a8a8;
     border-radius: 4px;
     outline: transparent;
-    padding: 12px 16px;
+    padding: 10px 32px 10px 16px;
     font: inherit;
     font-size: 14px;
     resize: none;
     width: 100%;
+    display: block;
+    line-height: 1.5;
+    max-height: calc(20px + ((14px * 2) * 6));
 }
 
 .conversation-form-input:focus {
-    border-color: #888787;
+    border-color: #999696;
 }
 
-.conversation-form-button {
+.conversation-form-record {
     position: absolute;
     bottom: 8px;
     right: 16px;
@@ -1582,6 +1607,68 @@ conversation-item-dropdown-list a i {
     background-color: transparent;
     border: none;
     outline: transparent;
+    cursor: pointer;
+}
+
+.conversation-form-record:hover {
+    color: #6e6868;
+}
+
+.conversation-form-button {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: none;
+    background-color: transparent;
+    outline: transparent;
+    font-size: 20px;
+    color: #999696;
+    cursor: pointer;
+}
+
+.conversation-form-button:hover {
+    background-color: #ece9e9;
+    color: #5f5d5d;
+}
+
+.conversation-form-button:active {
+    background-color: #dfdddd;
+    color: #5f5d5d;
+}
+
+.conversation-form-submit {
+    background-color: #17862d;
+    box-shadow: 0 2px 8pc -2px #17862d;
+    color: #fff;
+}
+
+.conversation-form-submit:hover {
+    background-color: #18690b;
+    color: #fff;
+}
+
+.conversation-form-submit.active {
+    background-color: #145809;
+    color: #fff;
+}
+
+.conversation-default {
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    padding-left: calc(300px + 16px);
+    color: #928e8e;
+}
+
+.conversation-default i {
+    font-size: 32px;
+}
+
+.conversation-default p {
+    margin-top: 16px;
 }
 
 /* start with reponsive screen */
@@ -1589,6 +1676,33 @@ conversation-item-dropdown-list a i {
     .chat-container {
         max-width: unset;
         height: 100vh;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .conversation,
+    .chat-content {
+        padding-left: unset;
+    }
+
+    .content-sidebar {
+        left: unset;
+        z-index: 10;
+        width: 100%;
+    }
+
+    .conversation.active {
+        position: relative;
+        z-index: 20;
+    }
+
+    .conversation-back {
+        display: flex;
+    }
+
+    .conversation-default.active {
+        display: none;
+        padding: 16px;
     }
 }
 
