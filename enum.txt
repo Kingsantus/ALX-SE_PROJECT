@@ -1,3 +1,304 @@
+{% for chat in chats %}
+                {% if chat.user1_id == current_user.id %}
+                    {% set other_user = chat.user2 %}
+                {% else %}
+                    {% set other_user = chat.user1 %}
+                {% endif %}
+                <div class="conversation" id="conversation--{{ chat.id }}">
+                    <div class="conversation-top">
+                        <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>
+                        <div class="conversation-user">
+                            <img class="conversation-user-image" src="{{ url_for('static', filename='images/profile_pic/' + other_user.image_file) }}">
+                            <div>
+                                <div class="conversation-user-name">{{ other_user.first_name }} {{ other_user.last_name }}</div>
+                            </div>
+                        </div>
+                        <div class="conversation-buttons">
+                            <button type="button"><i class="ri-phone-fill"></i></button>
+                            <button type="button"><i class="ri-vidicon-line"></i></button>
+                            <button type="button"><i class="ri-information-line"></i></button>
+                        </div>
+                    </div>
+                    <div class="conversation-main">
+                        <ul class="conversation-wrapper">
+                            {% set today = current_datetime.date() %}
+                            {% set yesterday = today - timedelta_class(days=1) %}
+                            {% set displayed_date = None %}
+                            {% for message in chat_messages[chat.id] %}
+                                {% set message_date = message.timestamp.date() %}
+                                {% if message_date == today %}
+                                    {% set display_date = 'Today' %}
+                                {% elif message_date == yesterday %}
+                                    {% set display_date = 'Yesterday' %}
+                                {% else %}
+                                    {% set display_date = message.timestamp.strftime('%A') %}
+                                {% endif %}
+                                {% if displayed_date != display_date %}
+                                    <div class="conversation-divider"><span>{{ display_date }}</span></div>
+                                    {% set displayed_date = display_date %}
+                                {% endif %}
+                            {% if message.user_id == current_user.id %}
+                                <li class="conversation-item me">
+                            {% else %}
+                                <li class="conversation-item">
+                            {% endif %}
+                                <div class="conversation-item-side">
+                                    {% if message.user_id == current_user.id %}
+                                        <img src="{{ url_for('static', filename='images/profile_pic/' + current_user.image_file) }}" class="conversation-item-image">
+                                    {% else %}
+                                        {% set other_user = message.user %}
+                                        <img src="{{ url_for('static', filename='images/profile_pic/' + other_user.image_file) }}" class="conversation-item-image">
+                                    {% endif %}
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>{{ message.content }}</p>
+                                                <span class="conversation-item-time">{{ message.timestamp.strftime('%H:%M') }}</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>So I have a gig at Abakpa, I will like to get an agreement with you</p>
+                                                <span class="conversation-item-time">11:23</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="conversation-item">
+                                <div class="conversation-item-side">
+                                    <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="conversation-item-image">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>Good Morning, I want to rent your piano, is it still available</p>
+                                                <span class="conversation-item-time">11:20</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>So I have a gig at Abakpa, I will like to get an agreement with you</p>
+                                                <span class="conversation-item-time">11:23</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="conversation-form">
+                        <button type="button" class="conversation-form-button conversation-form-emoji"><i class="ri-emotion-line"></i></button>
+                        <div class="conversation-form-group">
+                            <textarea name="text" id="input" rows="1" class="conversation-form-input" placeholder="Type here..."></textarea>
+                            <button type="button" class="conversation-form-record"><i class="ri-mic-line"></i></button>
+                        </div>
+                        <button type="button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
+                    </div>
+                </div>
+            {% endfor %}
+
+// Assuming you have included SocketIO library in your HTML
+
+// Handle form submission
+document.querySelector('.conversation-form-submit').addEventListener('click', function() {
+    var messageContent = document.querySelector('.conversation-form-input').value;
+    var chatId = "conversation-" + chatIdFromSomeWhere; // You need to replace chatIdFromSomeWhere with actual chat ID
+
+    // Emit message to server
+    socket.emit('new_message', {content: messageContent, chat_id: chatId});
+});
+
+// Receive and display messages from other users
+socket.on('receive_message', function(data) {
+    // Add message to conversation area
+    var messageHtml = '<li class="conversation-item">' +
+                          '<div class="conversation-item-side">' +
+                              '<img src="' + data.profile_pic_url + '" class="conversation-item-image">' +
+                          '</div>' +
+                          '<div class="conversation-item-content">' +
+                              '<div class="conversation-item-wrapper">' +
+                                  '<div class="conversation-item-box">' +
+                                      '<div class="conversation-item-text">' +
+                                          '<p>' + data.content + '</p>' +
+                                          '<span class="conversation-item-time">' + data.timestamp + '</span>' +
+                                      '</div>' +
+                                      '<div class="conversation-item-dropdown">' +
+                                          '<button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>' +
+                                          '<ul class="conversation-item-dropdown-list">' +
+                                              '<li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>' +
+                                              '<li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>' +
+                                          '</ul>' +
+                                      '</div>' +
+                                  '</div>' +
+                              '</div>' +
+                          '</div>' +
+                      '</li>';
+    document.querySelector('.conversation-wrapper').innerHTML += messageHtml;
+});
+
+
+content = data['content']
+    chat_id = data['chat_id']
+    user_id = current_user.id
+    timestamp = datetime.utcnow()
+    user_image_file = get_user_image_file(user_id)
+
+    # Save the message to the database
+    message = Message(content=content, chat_id=chat_id, user_id=user_id, timestamp=timestamp)
+    db.session.add(message)
+    db.session.commit()
+    # Emit a 'receive_message' event to all clients
+    emit('receive_message', {'content': content, 'chat_id': chat_id, 'user_image_file': user_image_file, timestamp: timestamp}, broadcast=True)
+
+const fullName = `{{ first_name }} {{ last_name }}`;
+// socketio that control the message of users
+document.addEventListener('DOMContentLoaded', () => {
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    let room;
+
+    socket.on('message', data => {
+        const p = document.createElement('p');
+        const span_username = document.createElement('span');
+        const span_timestamp = document.createElement('span'); 
+        const br =document.createElement('br');
+        span_username.innerHTML = data.fullName;
+        span_timestamp.innerHTML = data.time_stamp;
+        p.innerHTML = span_username.outerHTML + br.outerHTML + data.msg + br.outerHTML + span_timestamp.outerHTML;
+        document.querySelector('.conversation-main').append(p);
+    });
+
+    // send message
+    document.querySelector('.conversation-form-submit').onclick = () => {
+        socket.send({'msg': document.querySelector('.conversation-form-input').value, 'fullName': fullName, 'room': room })
+    }
+
+    document.querySelectorAll('select-room').forEach(p => {
+        p.onclick = () => {
+            let newRoom = p.innerHTML;
+            if (newRoom == room) {
+                msg = `You are already in ${room} room.`
+                printSysMsg(msg);
+            } else {
+                leaveRoom(room);
+                joinRoom(newRoom);
+                room = newRoom;
+            }
+        }
+    });
+
+    // leave room
+    function leaveRoom(room) {
+        socket.emit('leave', {'fullName': fullName, 'room': room});
+    }
+
+    // join room 
+    function joinRoom(room) {
+        socket.emit('join', {'fullName': fullName, 'room': room});
+        // clear message area
+        document.querySelector('.content-messages').innerHTML = ''
+    }
+
+    // Print System Message
+    function printSysMsg(msg) {
+        const p = document.createElement('p');
+        p.innerHTML = msg;
+        document.querySelector('.content-messages').append(p);
+    }
+})
+
+
+class Chat(db.Model):
+    id = db.Column(db.String(64), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    user1_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user2_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    messages = db.relationship('Message', backref='chat', lazy=True)
+
+    def __init__(self, post_id, user1_id, user2_id):
+        self.post_id = post_id
+        self.user1_id = user1_id
+        self.user2_id = user2_id
+        self.id = self.generate_chat_id()
+
+    @validates('user1_id')
+    def validate_user1_id(self, key, user1_id):
+        # Ensure user1_id is different from user2_id
+        if user1_id == self.user2_id:
+            raise ValueError("user1_id and user2_id cannot be the same.")
+        return user1_id
+
+    @validates('user2_id')
+    def validate_user2_id(self, key, user2_id):
+        # Ensure user2_id is different from user1_id
+        if user2_id == self.user1_id:
+            raise ValueError("user1_id and user2_id cannot be the same.")
+        return user2_id
+
+    def generate_chat_id(self):
+        # Generate a unique chat ID based on user IDs
+        sorted_ids = sorted([self.user1_id, self.user2_id])
+        chat_id = '-'.join(map(str, sorted_ids))
+        return chat_id
+    
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_id = db.Column(db.String(64), db.ForeignKey('chat.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __init__(self, chat_id, user_id, content):
+        self.chat_id = chat_id
+        self.user_id = user_id
+        self.content = content
+
+    @validates('user_id')
+    def validate_user_id(self, key, user_id):
+        # Check if the provided user_id is one of the users in the chat
+        chat = Chat.query.get(self.chat_id)
+        if chat.user1_id != user_id and chat.user2_id != user_id:
+            raise ValueError("User is not part of the chat.")
+        return user_id
+
+
 """class Category(Enum):
     KEYBOARDS_SYNTHESIZERS = 'Keyboards & Synthesizers'
     ELECTRIC_GUITARS = 'Electric Guitars'

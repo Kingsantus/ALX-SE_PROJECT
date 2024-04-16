@@ -1,7 +1,9 @@
 from app import db, login_manager
+from sqlalchemy.orm import validates
 from flask_login import UserMixin
 from enum import Enum
 from datetime import datetime
+from hashlib import sha256
 
 class Category(Enum):
     KEYBOARDS_SYNTHESIZERS = 'Keyboards & Synthesizers'
@@ -124,6 +126,9 @@ class User(db.Model, UserMixin):
     reviews = db.relationship('Review', backref='author1', lazy=True)
     rented = db.relationship('Agreement', backref='author4', lazy=True)
     expirence = db.relationship('Expirence', backref='author6', lazy=True)
+    chats_user1 = db.relationship('Chat', backref='user1', foreign_keys='Chat.user1_id', lazy=True)
+    chats_user2 = db.relationship('Chat', backref='user2', foreign_keys='Chat.user2_id', lazy=True)
+    message = db.relationship('Message', backref='author7', lazy=True)
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.image_file}')"
@@ -175,3 +180,16 @@ class Expirence(db.Model):
 
     def __repr__(self):
         return f"Review('{self.content}')"
+
+class Chat(db.Model):
+    id = db.Column(db.String(64), primary_key=True)
+    user1_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user2_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    messages = db.relationship('Message', backref='chat', lazy=True)
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_id = db.Column(db.String(64), db.ForeignKey('chat.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime)

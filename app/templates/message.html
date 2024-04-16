@@ -12,19 +12,34 @@
                 <div class="content-messages">
                     <ul class="content-messages-list">
                         <li class="content-message-title"><span>Recently</span></li>
-                        <li>
-                            <a href="#" data-conversation="#conversation-1">
-                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
-                                <span class="content-message-info">
-                                    <span class="content-message-name">Asogwa Kingsantus</span>
-                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
-                                </span>
-                                <span class="content-message-more">
-                                    <span class="content-message-unread">5</span>
-                                    <span class="content-message-time">12:30</span>
-                                </span>
-                            </a>
-                        </li>
+                        {% for chat in chats %}
+                            {% if chat.user1_id == current_user.id %}
+                                {% set other_user = chat.user2 %}
+                            {% else %}
+                                {% set other_user = chat.user1 %}
+                            {% endif %}
+                            <li>
+                                <a href="#" data-conversation="#conversation--{{ chat.id }}">
+                                    <img class="content-message-image" src="{{ url_for('static', filename='images/profile_pic/' + other_user.image_file) }}">
+                                    <span class="content-message-info">
+                                        <span class="content-message-name">{{ other_user.first_name }} {{ other_user.last_name }}</span>
+                                        <span class="content-message-text">
+                                            {% if chat_messages[chat.id] %}
+                                                {{ chat_messages[chat.id][-1].content }}
+                                            {% else %}
+                                                No messages yet
+                                            {% endif %}
+                                        </span>
+                                    </span>
+                                    <span class="content-message-more">
+                                        <span class="content-message-unread">1</span>
+                                        {% if chat_messages[chat.id] %}
+                                            <span class="content-message-time">{{ chat_messages[chat.id][-1].timestamp.strftime('%H:%M') }}</span>
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li>
+                        {% endfor %}
                         <li>
                             <a href="#" data-conversation="#conversation-2">
                                 <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
@@ -89,31 +104,6 @@
                                 </span>
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
-                                <span class="content-message-info">
-                                    <span class="content-message-name">Asogwa Kingsantus</span>
-                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
-                                </span>
-                                <span class="content-message-more">
-                                    <span class="content-message-unread">5</span>
-                                    <span class="content-message-time">12:30</span>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img class="content-message-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
-                                <span class="content-message-info">
-                                    <span class="content-message-name">Asogwa Kingsantus</span>
-                                    <span class="content-message-text">I will be coming to pic the rest of my properties tomorrow.</span>
-                                </span>
-                                <span class="content-message-more">
-                                    <span class="content-message-time">12:30</span>
-                                </span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -121,109 +111,140 @@
                 <i class="ri-chat-3-line"></i>
                 <p>Select chat and view conversation!</p>
             </div>
-            <div class="conversation" id="conversation-1">
-                <div class="conversation-top">
-                    <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>
-                    <div class="conversation-user">
-                        <img class="conversation-user-image" src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
-                        <div>
-                            <div class="conversation-user-name">Asogwa Kingsantus</div>
+            {% for chat in chats %}
+                {% if chat.user1_id == current_user.id %}
+                    {% set other_user = chat.user2 %}
+                {% else %}
+                    {% set other_user = chat.user1 %}
+                {% endif %}
+                <div class="conversation" id="conversation--{{ chat.id }}">
+                    <div class="conversation-top">
+                        <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>
+                        <div class="conversation-user">
+                            <img class="conversation-user-image" src="{{ url_for('static', filename='images/profile_pic/' + other_user.image_file) }}">
+                            <div>
+                                <div class="conversation-user-name">{{ other_user.first_name }} {{ other_user.last_name }}</div>
+                            </div>
+                        </div>
+                        <div class="conversation-buttons">
+                            <button type="button"><i class="ri-phone-fill"></i></button>
+                            <button type="button"><i class="ri-vidicon-line"></i></button>
+                            <button type="button"><i class="ri-information-line"></i></button>
                         </div>
                     </div>
-                    <div class="conversation-buttons">
-                        <button type="button"><i class="ri-phone-fill"></i></button>
-                        <button type="button"><i class="ri-vidicon-line"></i></button>
-                        <button type="button"><i class="ri-information-line"></i></button>
+                    <div class="conversation-main">
+                        <ul class="conversation-wrapper">
+                            {% set today = current_datetime.date() %}
+                            {% set yesterday = today - timedelta_class(days=1) %}
+                            {% set last_displayed_date = None %}
+                            {% for message in chat_messages[chat.id] %}
+                                {% set message_date = message.timestamp.date() %}
+                                {% if message_date == today %}
+                                    {% set display_date = 'Today' %}
+                                {% elif message_date == yesterday %}
+                                    {% set display_date = 'Yesterday' %}
+                                {% else %}
+                                    {% set display_date = message.timestamp.strftime('%A') %}
+                                {% endif %}
+                                {% if last_displayed_date != display_date %}
+                                    <div class="conversation-divider"><span>{{ display_date }}</span></div>
+                                {% set last_displayed_date = display_date %}
+                                {% endif %}
+                            {% if message.user_id == current_user.id %}
+                                <li class="conversation-item me">
+                            {% else %}
+                                <li class="conversation-item">
+                            {% endif %}
+                                <div class="conversation-item-side">
+                                    {% if message.user_id == current_user.id %}
+                                        <img src="{{ url_for('static', filename='images/profile_pic/' + current_user.image_file) }}" class="conversation-item-image">
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='images/profile_pic/' + other_user.image_file) }}" class="conversation-item-image">
+                                    {% endif %}
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>{{ message.content }}</p>
+                                                <span class="conversation-item-time">{{ message.timestamp.strftime('%H:%M') }}</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>So I have a gig at Abakpa, I will like to get an agreement with you</p>
+                                                <span class="conversation-item-time">11:23</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="conversation-item">
+                                <div class="conversation-item-side">
+                                    <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="conversation-item-image">
+                                </div>
+                                <div class="conversation-item-content">
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>Good Morning, I want to rent your piano, is it still available</p>
+                                                <span class="conversation-item-time">11:20</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item-wrapper">
+                                        <div class="conversation-item-box">
+                                            <div class="conversation-item-text">
+                                                <p>So I have a gig at Abakpa, I will like to get an agreement with you</p>
+                                                <span class="conversation-item-time">11:23</span>
+                                            </div>
+                                            <div class="conversation-item-dropdown">
+                                                <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
+                                                <ul class="conversation-item-dropdown-list">
+                                                    <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
+                                                    <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="conversation-form">
+                        <button type="button" class="conversation-form-button conversation-form-emoji"><i class="ri-emotion-line"></i></button>
+                        <div class="conversation-form-group">
+                            <textarea name="text" id="input" rows="1" class="conversation-form-input" placeholder="Type here..."></textarea>
+                            <button type="button" class="conversation-form-record"><i class="ri-mic-line"></i></button>
+                        </div>
+                        <button type="button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
                     </div>
                 </div>
-                <div class="conversation-main">
-                    <ul class="conversation-wrapper">
-                        <div class="conversation-divider"><span>Today</span></div>
-                        <li class="conversation-item me">
-                            <div class="conversation-item-side">
-                                <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="conversation-item-image">
-                            </div>
-                            <div class="conversation-item-content">
-                                <div class="conversation-item-wrapper">
-                                    <div class="conversation-item-box">
-                                        <div class="conversation-item-text">
-                                            <p>Good Morning, I want to rent your piano, is it still available</p>
-                                            <span class="conversation-item-time">11:20</span>
-                                        </div>
-                                        <div class="conversation-item-dropdown">
-                                            <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
-                                            <ul class="conversation-item-dropdown-list">
-                                                <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
-                                                <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="conversation-item-wrapper">
-                                    <div class="conversation-item-box">
-                                        <div class="conversation-item-text">
-                                            <p>So I have a gig at Abakpa, I will like to get an agreement with you</p>
-                                            <span class="conversation-item-time">11:23</span>
-                                        </div>
-                                        <div class="conversation-item-dropdown">
-                                            <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
-                                            <ul class="conversation-item-dropdown-list">
-                                                <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
-                                                <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="conversation-item">
-                            <div class="conversation-item-side">
-                                <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}" class="conversation-item-image">
-                            </div>
-                            <div class="conversation-item-content">
-                                <div class="conversation-item-wrapper">
-                                    <div class="conversation-item-box">
-                                        <div class="conversation-item-text">
-                                            <p>Good Morning, I want to rent your piano, is it still available</p>
-                                            <span class="conversation-item-time">11:20</span>
-                                        </div>
-                                        <div class="conversation-item-dropdown">
-                                            <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
-                                            <ul class="conversation-item-dropdown-list">
-                                                <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
-                                                <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="conversation-item-wrapper">
-                                    <div class="conversation-item-box">
-                                        <div class="conversation-item-text">
-                                            <p>So I have a gig at Abakpa, I will like to get an agreement with you</p>
-                                            <span class="conversation-item-time">11:23</span>
-                                        </div>
-                                        <div class="conversation-item-dropdown">
-                                            <button type="button" class="conversation-item-dropdown-toggle"><i class="ri-more-2-line"></i></button>
-                                            <ul class="conversation-item-dropdown-list">
-                                                <li><a href="#"><i class="ri-share-forward-line"></i>Forward</a></li>
-                                                <li><a href="#"><i class="ri-delete-bin-line"></i>Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="conversation-form">
-                    <button type="button" class="conversation-form-button conversation-form-emoji"><i class="ri-emotion-line"></i></button>
-                    <div class="conversation-form-group">
-                        <textarea name="text" id="input" rows="1" class="conversation-form-input" placeholder="Type here..."></textarea>
-                        <button type="button" class="conversation-form-record"><i class="ri-mic-line"></i></button>
-                    </div>
-                    <button type="button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
-                </div>
-            </div>
+            {% endfor %}
             <div class="conversation" id="conversation-2">
                 <div class="conversation-top">
                     <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>

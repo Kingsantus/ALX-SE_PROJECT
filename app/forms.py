@@ -53,3 +53,6 @@ class ExpirenceForm(FlaskForm):
     rating = IntegerField('Title', validators=[DataRequired()])
     content = TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('post')
+
+class ChatIDForm(FlaskForm):
+    submit = SubmitField('post')
