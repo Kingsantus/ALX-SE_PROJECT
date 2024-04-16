@@ -123,7 +123,8 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     image_file = db.Column(db.String(50), nullable=False, default='default.jpg')
     posts = db.relationship('Post', backref='author', lazy=True)
-    reviews = db.relationship('Review', backref='author1', lazy=True)
+    reviewer = db.relationship('Review', backref='author1', lazy=True)
+    reviewed = db.relationship('Review', backref='author2', lazy=True)
     rented = db.relationship('Agreement', backref='author4', lazy=True)
     expirence = db.relationship('Expirence', backref='author6', lazy=True)
     chats_user1 = db.relationship('Chat', backref='user1', foreign_keys='Chat.user1_id', lazy=True)
@@ -145,7 +146,6 @@ class Post(db.Model):
     image_file = db.Column(db.String(50), nullable=False)
     availability = db.Column(db.Boolean, nullable=False, default=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    reviews = db.relationship('Review', backref='author2', lazy=True)
     rented = db.relationship('Agreement', backref='author5', lazy=True)
 
     def __repr__(self):
@@ -156,7 +156,7 @@ class Review(db.Model):
     content = db.Column(db.String(100), nullable=False)
     star_rating = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Review('{self.content}')"

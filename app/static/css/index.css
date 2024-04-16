@@ -849,6 +849,7 @@ section {
 .post-stats div {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .post-stats a {
@@ -878,6 +879,56 @@ section {
 
 .post-activity a:hover {
     background: #ccc;
+}
+
+.review-menu-wrap {
+    position: absolute;
+    top: 150%;
+    left: 30%;
+    width: 320px;
+    background: #ccc;
+    box-shadow: 0 15px 20px #bababa;
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+
+.review-menu-wrap.open-menu {
+    display: block;
+}
+
+.review-message {
+    color: var(--text-dark);
+    padding: 10px 20px;
+    margin: 3px 10px;
+}
+
+.review-info {
+    display: flex;
+    align-items: center;
+}
+
+.review-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.review-info h3 {
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: -7px;
+}
+
+.review-info p {
+    font-size: 13px;
+    color: #111;
+}
+
+.review-info .stars {
+    color: yellow;
+    font-size: 12px;
 }
 
 .form-container {

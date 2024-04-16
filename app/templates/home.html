@@ -22,13 +22,13 @@
           <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" width="100%">
           <div class="post-stats">
             <div>
-              <span class="Reviewed"><a href="#">11 Reviewed &middot;</a></span>
+              <span class="Reviewed">11 Reviewed &middot;</span>
             </div>
           </div>
           <div class="post-activity">
             {% if current_user.id != post.author.id %}
               <div><a href="{{ url_for('create_chat',  author_id=post.author.id) }}" id="chat-link-creator">Connect</a></div>
-              <div><a href="#">Review</a></div>
+              <div><a href="{{ url_for('review', author_id=post.author.id) }}">Review</a></div>
             {% else %}
               <div><a href="#">Update</a></div>
               <div><a href="#">Delete</a></div>
@@ -36,6 +36,25 @@
           </div>
         </div>
       {% endfor %}
+        <!-- review bar -->
+        <div class="review-menu-wrap">
+          <div class="review-message">
+            <div class="review-info">
+              <img src="{{ url_for('static', filename='images/website_pic/about/about.jpg') }}">
+              <div>
+                <h3>Name Of user</h3>
+                <p>Message of User</p>
+                <div class="stars">  
+                  <i class="star fas fa-star" data-value="1"></i>
+                  <i class="star fas fa-star" data-value="2"></i>
+                  <i class="star fas fa-star" data-value="3"></i>
+                  <i class="star fas fa-star" data-value="4"></i>
+                  <i class="star fas fa-star" data-value="5"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
     <!--  right side bar -->
     <div class="right-sidebar">

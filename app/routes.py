@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, socketio
-from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ExpirenceForm, ChatIDForm
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ExpirenceForm, ReviewForm
 from sqlalchemy import or_
 from flask_login import login_user, current_user, logout_user, login_required
 from app.models import User, Post, Review, Agreement, Expirence, Chat, Message
@@ -168,6 +168,27 @@ def expirence():
         return redirect(url_for('home'))
     
     return render_template('expirence.html', title='New Post', form=form, legend='New Post')
+
+@app.route('/review/new', methods=['GET', 'POST'])
+@login_required
+def review():
+    form = ReviewForm()
+    if form.validate_on_submit():
+        review = Review(
+            star_rating=form.rating.data,
+            author2=post.author,
+            content=form.content.data,
+            author1=current_user
+        )
+        
+        db.session.add(expirence)
+        db.session.commit()
+
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    
+    return render_template('review.html', title='Review User', form=form, legend='New Post')
+
 
 
 @app.route('/create_chat/<int:author_id>', methods=['GET', 'POST'])

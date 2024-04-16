@@ -46,6 +46,29 @@ document.querySelectorAll('.conversation-back').forEach(function(item) {
     })
 })
 
+document.addEventListener("DOMContentLoaded", function() {
+    const reviewDisList = document.querySelectorAll(".Reviewed");
+    const reviewCommentList = document.querySelectorAll(".review-menu-wrap");
+
+    reviewDisList.forEach((review, index) => {
+        review.addEventListener("click", function(event) {
+            // Prevent default behavior of the link
+            event.preventDefault();
+            
+            // Toggle the class 'open-menu' on the corresponding review comment list
+            reviewCommentList[index].classList.toggle("open-menu");
+        });
+
+        // Clicking anywhere else on the document will close the review menu
+        document.addEventListener("click", function(event) {
+            if (!reviewCommentList[index].contains(event.target) && !reviewDisList[index].contains(event.target)) {
+                reviewCommentList[index].classList.remove("open-menu");
+            }
+        });
+    });
+});
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const connectLinks = document.querySelector('.connect-link');
 
@@ -72,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 // function loadConversationContent() {
 //     // Make an AJAX request to fetch the latest conversation content from the server
