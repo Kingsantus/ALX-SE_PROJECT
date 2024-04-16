@@ -3,7 +3,7 @@ from time import localtime, strftime
 from datetime import datetime, timedelta
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
-from app import app, db, bcrypt, socketio, ROOMS
+from app import app, db, bcrypt, socketio
 from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ExpirenceForm, ChatIDForm
 from sqlalchemy import or_
 from flask_login import login_user, current_user, logout_user, login_required
@@ -216,10 +216,11 @@ def chats():
     # Pass the current date and time to the template
     current_datetime = datetime.now()
     timedelta_class = timedelta
+    current_user_id = current_user.id
 
 
     # Render the template with the user's chats and associated messages
-    return render_template('message.html', chats=chats, chat_messages=chat_messages, current_datetime=current_datetime, timedelta_class=timedelta_class)
+    return render_template('message.html', chats=chats, chat_messages=chat_messages, current_datetime=current_datetime, timedelta_class=timedelta_class, current_user_id=current_user_id)
 
 @app.route('/chat/<chat_id>', methods=['GET'])
 @login_required
@@ -251,7 +252,7 @@ def handle_message(data):
     user_id = current_user.id
     timestamp = datetime.utcnow()
     user_image_file = get_user_image_file(user_id)
-    timestamp_str = timestamp.strftime('%H:%M') 
+    timestamp_str = timestamp.strftime('%H:%M')
 
     # Save the message to the database
     message = Message(content=content, chat_id=chat_id, user_id=user_id, timestamp=timestamp)
