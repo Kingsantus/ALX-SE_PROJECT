@@ -68,6 +68,57 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    var reviews = document.querySelectorAll(".review-message");
+    reviews.forEach(function(review) {
+      var rating = parseInt(review.querySelector(".rating-review").textContent); // Get the star rating as an integer
+      var starsContainer = review.querySelector(".stars");
+      starsContainer.innerHTML = ""; // Clear previous stars
+  
+      // Create filled stars based on the rating
+      for (var i = 0; i < rating; i++) {
+        var star = document.createElement("i");
+        star.classList.add("star", "fas", "fa-star", "filled"); // Add filled class to each star
+        starsContainer.appendChild(star);
+      }
+    });
+  });
+
+
+  // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.querySelectorAll("deleteBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+function toggleModal() {
+    modal.style.display = modal.style.display === "block" ? "none" : "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  toggleModal();
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    toggleModal();
+  }
+}
+
+// Function to delete the item (to be implemented)
+function deleteItem() {
+    // Implement deletion logic here
+    console.log("Item deleted!");
+    toggleModal(); // Close the modal after deletion
+}
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const connectLinks = document.querySelector('.connect-link');

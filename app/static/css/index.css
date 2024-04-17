@@ -877,9 +877,70 @@ section {
     transition: 0.3s ease;
 }
 
+.post-activity .deleteBtn {
+    border-radius: 5px;
+    background: var(--text-light);
+    color: var(--white);
+    padding: 6px 25px;
+    text-decoration: none;
+    margin: 5px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    border: none;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
 .post-activity a:hover {
     background: #ccc;
 }
+
+.post-activity .deleteBtn:hover {
+    background: #ccc;
+}
+
+.post-activity .deleteBtn.active {
+    background: rgb(244, 70, 70);
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 .review-menu-wrap {
     position: absolute;
@@ -929,6 +990,10 @@ section {
 .review-info .stars {
     color: yellow;
     font-size: 12px;
+}
+
+.rating-review {
+    display: none;
 }
 
 .form-container {

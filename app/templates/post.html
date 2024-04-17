@@ -1,16 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="posts-display">
-      <div class="card card-container">
-        <div class="card-body">
-          <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" alt="post_image" class="post-img">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='images/profile_pic/' + post.author.image_file) }}" alt="">
-          <h3 class="card-title">{{ post.title }} category {{ post.category }}</h3>
-          <p card-text><b>{{ post.author.first_name }} {{ post.author.last_name }}</b> on {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
-          <p card-text>{{ post.description }}</p>
-          <p card-text>Price: ₦{{ post.price }} at {{ post.city }}, {{ post.country }}</p>
-          <a href="#" class="btn btn-primary">Rent</a>
-        </div>
+<section class="section-form">
+  <div class="post-container">
+    <div class="post-author">
+      <img src="{{ url_for('static', filename='images/profile_pic/' + post.author.image_file) }}" alt="">
+      <div>
+        <h1>{{ post.author.first_name }} {{ post.author.last_name }}</h1>
+        <small>{{ post.city }}, {{ post.country }}</small>
+        <small>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
       </div>
+    </div>
+    <h1>{{ post.title }}  Price: {{ post.price }}<span>category: {{ post.category }}</span></h1>
+    <p>{{ post.description }}</p>
+    <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" width="100%">
+    <div class="post-activity">
+      {% if post.author == current_user %}
+        <div><a href="{{ url_for('update_post', post_id=post.id) }}">Update</a></div>
+        <div><button class="deleteBtn" onclick="toggleModal()">Delete</button></div>
+      {% endif %}
+    </div>
   </div>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="toggleModal()">&times;</span>
+        <p>Do you want to delete?</p>
+        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="Post">
+          <input type="submit" class="button" value="Delete">
+        </form>
+        <button onclick="toggleModal()">No</button>
+    </div>
+  </div>
+</section>
 {% endblock %}

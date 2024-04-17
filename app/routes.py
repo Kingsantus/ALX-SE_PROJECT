@@ -2,7 +2,7 @@ import secrets, os
 from time import localtime, strftime
 from datetime import datetime, timedelta
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort, jsonify
+from flask import render_template, url_for, flash, redirect, request, abort, current_app
 from app import app, db, bcrypt, socketio
 from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ExpirenceForm, ReviewForm
 from sqlalchemy import or_
@@ -60,7 +60,13 @@ def logout():
 @login_required
 def home():
     posts = Post.query.all()
-    return render_template('home.html', posts=posts)
+    reviews = Review.query.all()
+    post_review_counts = {}
+
+    for post in posts:
+        review_count = Review.query.filter_by(author_id=post.author.id).count()
+        post_review_counts[post.id] = review_count
+    return render_template('home.html', posts=posts, reviews=reviews, post_review_counts=post_review_counts)
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -138,17 +144,51 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
-@app.route('/post/<int:post_id>/update')
+@app.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
+    # Check if the current user is the author of the post
     if post.author != current_user:
-        abort(403)
+        abort(403)  # HTTP 403 Forbidden
+
     form = PostForm()
     picture_file = None
-    form.title.data = post.title
-    form.description.data = post.description
-    return render_template('create_post.html', title='Update Post', form=form, image_file=picture_file, legend='Update Post')
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = post_picture(form.picture.data)
+            post.image_file = picture_file
+        # Update the post with the new data from the form
+        post.title = form.title.data
+        post.description = form.description.data
+        post.price = form.price.data
+        post.city = form.city.data
+        post.category = form.category.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('home'))
+    
+    elif request.method == 'GET':
+        # Pre-fill the form fields with the current post data
+        form.title.data = post.title
+        form.description.data = post.description
+        form.price.data = int(post.price)
+        form.city.data = post.city
+        form.category.data = post.category
+    return render_template('create_post.html', title='Update Post', form=form, legend='Update Post', image_file=picture_file)
+
+
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    # Check if the current user is the author of the post
+    if post.author != current_user:
+        abort(403)  # HTTP 403 Forbidden
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your Post has been deleted!', 'success')
+    return redirect(url_for('home'))
 
 @app.route('/expirence/new', methods=['GET', 'POST'])
 @login_required
@@ -169,26 +209,26 @@ def expirence():
     
     return render_template('expirence.html', title='New Post', form=form, legend='New Post')
 
-@app.route('/review/new', methods=['GET', 'POST'])
+@app.route('/review/<int:author_id>', methods=['GET', 'POST'])
 @login_required
-def review():
+def review(author_id):
+    author = User.query.get_or_404(author_id)
     form = ReviewForm()
     if form.validate_on_submit():
         review = Review(
             star_rating=form.rating.data,
-            author2=post.author,
-            content=form.content.data,
-            author1=current_user
+            user_id=current_user.id,
+            author_id=author.id,
+            content=form.content.data
         )
         
-        db.session.add(expirence)
+        db.session.add(review)
         db.session.commit()
 
-        flash('Your post has been created!', 'success')
+        flash('Your review has been submitted!', 'success')
         return redirect(url_for('home'))
     
-    return render_template('review.html', title='Review User', form=form, legend='New Post')
-
+    return render_template('review.html', title='Review User', form=form, legend='New Review')
 
 
 @app.route('/create_chat/<int:author_id>', methods=['GET', 'POST'])
