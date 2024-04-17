@@ -1,3 +1,11 @@
+from flask_socketio import emit
+from app import socketio, db
+from flask_login import current_user
+from time import localtime, strftime
+from datetime import datetime
+from utils import get_user_image_file
+from app.models import Message
+
 # SocketIO event handler for new messages
 @socketio.on('send_message')
 def handle_message(data):

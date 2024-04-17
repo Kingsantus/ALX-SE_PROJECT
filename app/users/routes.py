@@ -1,4 +1,9 @@
-from flask import Blueprint
+from flask import Blueprint, redirect, render_template, url_for, flash, request
+from flask_login import login_required, current_user, login_user, logout_user
+from app import db, bcrypt
+from forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
+from utils import save_picture, send_reset_email
+from app.models import User, Post, Review
 
 users = Blueprint('users', __name__)
 
@@ -31,7 +36,7 @@ def login():
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', form=form, title='Login')
 
-@app.route('/logout')
+@users.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))

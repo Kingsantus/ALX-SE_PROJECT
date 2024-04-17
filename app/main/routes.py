@@ -1,4 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, request
+from app.models import Post, Review, Expirence
+from flask_login import login_required
 
 main = Blueprint('main', __name__)
 
