@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="section-form">
+        <div class="form-container">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <h2>Reset Password</h2>
+                <fieldset class="input-box">
+                    <div class="input-box">
+                        {{ form.password.label(class='form-check-label') }}
+                        {% if form.password.error %}
+                            {{ form.password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class='form-control form-control-lg') }}
+                        {% endif %}
+                    </div>
+                    <div class="input-box">
+                        {{ form.confirm_password.label(class='form-check-label') }}
+                        {% if form.confirm_password.error %}
+                            {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.confirm_password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.confirm_password(class='form-control form-control-lg') }}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="input-box">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

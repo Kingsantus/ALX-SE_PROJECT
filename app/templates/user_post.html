@@ -3,6 +3,7 @@
   <div class="container-home">
     <!--    main content  -->
     <div class="main-content">
+        <h1 class="">Posts by {{ user.first_name }} {{ user.last_name }} <br>Total: {{ posts.total }}</h1>
       <div class="sort-by">
         <hr>
         <p>Sort by: <span>Latest</span></p>
@@ -39,9 +40,9 @@
       {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
           {% if posts.page == page_num %}
-            <a class="btn-page_nume" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            <a class="btn-page_nume" href="{{ url_for('user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
           {% else %}
-            <a class="btn-page_num" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            <a class="btn-page_num" href="{{ url_for('user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
           {% endif %}
         {% else %}
           ...

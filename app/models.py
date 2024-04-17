@@ -1,9 +1,11 @@
-from app import db, login_manager
+from app import db, login_manager, app
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from sqlalchemy.orm import validates
 from flask_login import UserMixin
 from enum import Enum
 from datetime import datetime
 from hashlib import sha256
+from flask import current_app
 
 class Category(Enum):
     KEYBOARDS_SYNTHESIZERS = 'Keyboards & Synthesizers'
@@ -130,6 +132,22 @@ class User(db.Model, UserMixin):
     chats_user1 = db.relationship('Chat', backref='user1', foreign_keys='Chat.user1_id', lazy=True)
     chats_user2 = db.relationship('Chat', backref='user2', foreign_keys='Chat.user2_id', lazy=True)
     message = db.relationship('Message', backref='author7', lazy=True)
+
+    def get_reset_token(self, expires_sec=900):
+        serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        return serializer.dumps({'user_id': self.id})
+    
+    @staticmethod
+    def verify_reset_token(token, max_age=900):
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        try:
+            data = serializer.loads(token, max_age=max_age)
+            user_id = data['user_id']
+            return User.query.get(user_id)
+        except SignatureExpired:
+            return None  
+        except BadSignature:
+            return None  
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.image_file}')"
