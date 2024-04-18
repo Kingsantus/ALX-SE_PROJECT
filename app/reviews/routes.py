@@ -2,7 +2,7 @@ from flask import Blueprint, flash, render_template, redirect, url_for
 from flask_login import login_required, current_user
 from app.models import Expirence, Review
 from app import db
-from forms import ExpirenceForm, ReviewForm
+from .forms import ExpirenceForm, ReviewForm
 from app.models import User
 
 reviews = Blueprint('reviews', __name__)
@@ -22,7 +22,7 @@ def expirence():
         db.session.commit()
 
         flash('Your post has been created!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     
     return render_template('expirence.html', title='New Post', form=form, legend='New Post')
 
@@ -43,6 +43,6 @@ def review(author_id):
         db.session.commit()
 
         flash('Your review has been submitted!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     
     return render_template('review.html', title='Review User', form=form, legend='New Review')

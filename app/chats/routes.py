@@ -5,9 +5,9 @@ from datetime import datetime, timedelta
 from sqlalchemy import or_
 from app import db
 
-chats = Blueprint('chats', __name__)
+messages = Blueprint('messages', __name__)
 
-@chats.route('/create_chat/<int:author_id>', methods=['GET', 'POST'])
+@messages.route('/create_chat/<int:author_id>', methods=['GET', 'POST'])
 @login_required
 def create_chat(author_id):
     # Get the current user's ID
@@ -34,9 +34,9 @@ def create_chat(author_id):
         db.session.commit()
 
     # Redirect to the chat page
-    return redirect(url_for('chats', chat_id=chat_id))
+    return redirect(url_for('messages.chats', chat_id=chat_id))
 
-@chats.route('/chats', methods=['GET', 'POST'])
+@messages.route('/chats', methods=['GET', 'POST'])
 @login_required
 def chats():
     # Retrieve all chats where the current user is a participant
@@ -59,7 +59,7 @@ def chats():
     # Render the template with the user's chats and associated messages
     return render_template('message.html', chats=chats, chat_messages=chat_messages, current_datetime=current_datetime, timedelta_class=timedelta_class, current_user_id=current_user_id)
 
-@chats.route('/chat/<chat_id>', methods=['GET'])
+@messages.route('/chat/<chat_id>', methods=['GET'])
 @login_required
 def chat(chat_id):
     # Retrieve the chat based on the chat ID

@@ -21,19 +21,19 @@
 </head>
 <body>
     <header class="header">
-        <a href="{{ url_for('index') }}" class="brand"><img src="{{ url_for('static', filename='images/website_pic/package/logo.png') }}">InstruLend</a>
+        <a href="{{ url_for('main.index') }}" class="brand"><img src="{{ url_for('static', filename='images/website_pic/package/logo.png') }}">InstruLend</a>
         <div class="menu-btn"><span><i class="ri-menu-line"></i></span></div>
         <div class="navigation">
             <div class="navigation-items">
               {% if current_user.is_authenticated %}
-                <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
-                <a class="nav-link active" aria-current="page" href="{{ url_for('account') }}">Account</a>
-                <a class="nav-link active" aria-current="page" href="{{ url_for('new_post') }}">New Post</a>
-                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                <a class="nav-link active" aria-current="page" href="{{ url_for('main.home') }}">Home</a>
+                <a class="nav-link active" aria-current="page" href="{{ url_for('users.account') }}">Account</a>
+                <a class="nav-link active" aria-current="page" href="{{ url_for('posts.new_post') }}">New Post</a>
+                <a class="nav-link" href="{{ url_for('users.logout') }}">Logout</a>
               {% else %}
-                <a class="nav-link" href="{{ url_for('about') }}">About</a>
-                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                <a class="nav-link" href="{{ url_for('register') }}">SignUp</a>
+                <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
+                <a class="nav-link" href="{{ url_for('users.login') }}">Login</a>
+                <a class="nav-link" href="{{ url_for('users.register') }}">SignUp</a>
               {% endif %}
             </div>
         </div>

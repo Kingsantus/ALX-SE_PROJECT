@@ -941,6 +941,38 @@ section {
     cursor: pointer;
 }
 
+.btn-container p {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.btn-delete {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.btn-delete input {
+    margin-right: 10px;
+}
+
+.btn-delete .button, .btn-delete button {
+    padding: 5px 10px;
+    border: 1px solid #111;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.btn-delete .button:hover {
+    background: #d61f1f;
+    color: #fff;
+}
+
+.btn-delete button:hover {
+    background: #29e929;
+    color: #fff;
+}
+
 
 .review-menu-wrap {
     position: absolute;

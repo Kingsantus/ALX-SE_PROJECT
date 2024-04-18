@@ -15,7 +15,7 @@
     <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" width="100%">
     <div class="post-activity">
       {% if post.author == current_user %}
-        <div><a href="{{ url_for('update_post', post_id=post.id) }}">Update</a></div>
+        <div><a href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a></div>
         <div><button class="deleteBtn" onclick="toggleModal()">Delete</button></div>
       {% endif %}
     </div>
@@ -23,11 +23,15 @@
   <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="toggleModal()">&times;</span>
-        <p>Do you want to delete?</p>
-        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="Post">
-          <input type="submit" class="button" value="Delete">
-        </form>
-        <button onclick="toggleModal()">No</button>
+        <div class="btn-container">
+          <p>Do you want to delete?</p>
+          <div class="btn-delete">
+            <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="Post">
+              <input type="submit" class="button" value="Delete">
+            </form>
+            <button onclick="toggleModal()">No</button>
+          </div>
+        </div>
     </div>
   </div>
 </section>

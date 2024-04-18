@@ -13,12 +13,12 @@
           <div class="post-author">
             <img src="{{ url_for('static', filename='images/profile_pic/' + post.author.image_file) }}" alt="">
             <div>
-              <h1><a href="{{ url_for('user_posts', user_id=post.author.id )}}">{{ post.author.first_name }} {{ post.author.last_name }}</a></h1>
+              <h1><a href="{{ url_for('users.user_posts', user_id=post.author.id )}}">{{ post.author.first_name }} {{ post.author.last_name }}</a></h1>
               <small>{{ post.city }}, {{ post.country }}</small>
               <small>{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
           </div>
-          <h1><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a>  Price: {{ post.price }}<span>category: {{ post.category }}</span></h1>
+          <h1><a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a>  Price: {{ post.price }}<span>category: {{ post.category }}</span></h1>
           <p>{{ post.description }}</p>
           <img src="{{ url_for('static', filename='images/post_pic/' + post.image_file) }}" width="100%">
           <div class="post-stats">
@@ -28,10 +28,10 @@
           </div>
           <div class="post-activity">
             {% if current_user.id != post.author.id %}
-              <div><a href="{{ url_for('create_chat',  author_id=post.author.id) }}" id="chat-link-creator">Connect</a></div>
-              <div><a href="{{ url_for('review', author_id=post.author.id) }}">Review</a></div>
+              <div><a href="{{ url_for('messages.create_chat',  author_id=post.author.id) }}" id="chat-link-creator">Connect</a></div>
+              <div><a href="{{ url_for('reviews.review', author_id=post.author.id) }}">Review</a></div>
             {% else %}
-              <div><a href="{{ url_for('update_post', post_id=post.id) }}">Update</a></div>
+              <div><a href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a></div>
               <div><a href="#">Delete</a></div>
             {% endif %}
           </div>
@@ -40,9 +40,9 @@
       {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
           {% if posts.page == page_num %}
-            <a class="btn-page_nume" href="{{ url_for('user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
+            <a class="btn-page_nume" href="{{ url_for('users.user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
           {% else %}
-            <a class="btn-page_num" href="{{ url_for('user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
+            <a class="btn-page_num" href="{{ url_for('users.user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
           {% endif %}
         {% else %}
           ...
@@ -72,7 +72,7 @@
     </div>
     <!--  right side bar -->
     <div class="right-sidebar">
-      <h3><a href="{{ url_for('chats') }}">Messages</a></h3>
+      <h3><a href="{{ url_for('messages.chats') }}">Messages</a></h3>
       <div class="sidebar-activity">
         <h3>Recent By State</h3>
         <a href="#"><i class="ri-refresh-line"></i>Abia</a>
@@ -113,7 +113,7 @@
         <a href="#"><i class="ri-refresh-line"></i>Zamfara</a>
       </div>
       <div class="review-us">
-        <a href="{{ url_for('expirence') }}">Tell Us your Expirence so far</a>
+        <a href="{{ url_for('reviews.expirence') }}">Tell Us your Expirence so far</a>
       </div>
     </div>
   </div>
