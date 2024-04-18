@@ -111,10 +111,17 @@ window.onclick = function(event) {
   }
 }
 
+btns.forEach(function(btn) {
+    btn.onclick = function() {
+        // Find the corresponding post and delete it
+        var postId = btn.dataset.postId; // Assuming postId is stored in data attribute
+        deleteItem(postId);
+    };
+});
+
 // Function to delete the item (to be implemented)
-function deleteItem() {
+function deleteItem(postId) {
     // Implement deletion logic here
-    console.log("Item deleted!");
     toggleModal(); // Close the modal after deletion
 }
 

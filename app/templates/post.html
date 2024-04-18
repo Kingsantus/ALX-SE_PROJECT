@@ -16,7 +16,7 @@
     <div class="post-activity">
       {% if post.author == current_user %}
         <div><a href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a></div>
-        <div><button class="deleteBtn" onclick="toggleModal()">Delete</button></div>
+        <div><button class="deleteBtn" data-post-id="{{ post.id }}" onclick="toggleModal()">Delete</button></div>
       {% endif %}
     </div>
   </div>

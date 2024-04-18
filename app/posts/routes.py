@@ -29,7 +29,7 @@ def new_post():
         db.session.commit()
 
         flash('Your post has been created!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     return render_template('create_post.html', title='New Post', form=form, image_file=picture_file, legend='New Post')
 
 @posts.route('/post/<int:post_id>')
@@ -60,7 +60,7 @@ def update_post(post_id):
         post.category = form.category.data
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     
     elif request.method == 'GET':
         # Pre-fill the form fields with the current post data
@@ -82,5 +82,5 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Your Post has been deleted!', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 

@@ -1,4 +1,4 @@
-from app import db, login_manager, app
+from app import db, login_manager
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from sqlalchemy.orm import validates
 from flask_login import UserMixin
