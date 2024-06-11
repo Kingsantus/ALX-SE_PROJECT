@@ -5,14 +5,21 @@ from .forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetF
 from .utils import save_picture, send_reset_email
 from app.models import User, Post, Review
 
+# Import the Blueprint class to create a blueprint for user-related routes
 users = Blueprint('users', __name__)
 
 @users.route("/signup", methods=['GET', 'POST'])
 def register():
+    """
+    Route to handle user registration.
+    If the user is already authenticated, they are redirected to the home page.
+    If the registration form is submitted and validated, the user is registered and redirected to the login page.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        # Hash the password and create a new user
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, phone_number=form.phone_number.data, password=hashed_password)
         db.session.add(user)
@@ -23,6 +30,11 @@ def register():
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
+    """
+    Route to handle user login.
+    If the user is already authenticated, they are redirected to the home page.
+    If the login form is submitted and validated, the user is logged in and redirected to the next page or home page.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     form = LoginForm()
@@ -38,12 +50,21 @@ def login():
 
 @users.route('/logout')
 def logout():
+    """
+    Route to handle user logout.
+    The user is logged out and redirected to the home page.
+    """
     logout_user()
     return redirect(url_for('main.home'))
 
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+    """
+    Route to handle updating user account details.
+    If the form is submitted and validated, the user's details are updated.
+    If the request method is GET, the form is populated with the current user's details.
+    """
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
@@ -68,6 +89,10 @@ def account():
 @users.route("/user/posts/<int:user_id>")
 @login_required
 def user_posts(user_id):
+    """
+    Route to display posts of a specific user.
+    The posts are paginated and the total number of reviews for each post is calculated.
+    """
     page = request.args.get('page', 1, type=int)
     user = User.query.get_or_404(user_id)
     posts = Post.query.filter_by(user_id=user.id).order_by(Post.date_posted.desc()).paginate(per_page=5)
@@ -81,6 +106,10 @@ def user_posts(user_id):
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
+    """
+    Route to handle password reset request.
+    If the form is submitted and validated, an email is sent to the user with instructions to reset their password.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     form = RequestResetForm()
@@ -93,6 +122,11 @@ def reset_request():
 
 @users.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
+    """
+    Route to handle resetting the password using a token.
+    If the token is invalid or expired, the user is redirected to the reset request page.
+    If the form is submitted and validated, the user's password is updated.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     user = User.verify_reset_token(token)
