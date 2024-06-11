@@ -1,7 +1,15 @@
 # ALX-SE_PROJECT
 # Musical Instrument Rental Website
 
+- ![intro in index section](https://github.com/Kingsantus/ALX-SE_PROJECT/blob/main/instru1.JPG)
+- ![about section in index page](https://github.com/Kingsantus/ALX-SE_PROJECT/blob/main/instru2.JPG)
+
 This project is a professional and formal website designed for the purpose of renting musical instruments. The website allows users to browse and rent a variety of musical instruments ranging from keyboards and synthesizers to guitars, drums, and more.
+
+## Introduction
+- **Website address**: https://kingsantus.pythonanywhere.com/
+- **Project Article**: https://medium.com/@kingsantusasogwa/instrulend-b0384318a798
+- **Author Linkedin**: linkedin.com/in/kingsantus-asogwa-9b867b14b
 
 ## Features
 
@@ -41,10 +49,15 @@ This project is a professional and formal website designed for the purpose of re
 
 4. **Run the Application**: Start the Flask development server by running:
 
-    flask run
+    python run.py
 
 
 5. **Access the Website**: Open your web browser and navigate to `http://localhost:5000` to access the website.
+
+## Related projects
+- https://www.rentmyinstrument.com/
+- https://www.musicarts.com/rentals
+- https://www.guitarcenter.com/Services/Rentals/
 
 ## Contributors
 
