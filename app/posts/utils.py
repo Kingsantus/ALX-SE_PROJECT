@@ -3,6 +3,16 @@ from PIL import Image
 from flask import current_app
 
 def post_picture(form_picture):
+    """
+    Save a post picture uploaded by the user.
+    Generates a random filename, resizes the image, and saves it to the static folder.
+
+    Args:
+        form_picture: The uploaded picture file.
+
+    Returns:
+        The filename of the saved picture.
+    """
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
