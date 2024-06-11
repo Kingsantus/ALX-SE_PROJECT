@@ -5,16 +5,25 @@ from app.models import Post
 from app import db
 from .utils import post_picture
 
+# Create a blueprint named 'posts'
 posts = Blueprint('posts', __name__)
 
 @posts.route('/post/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
+    """
+    Route to create a new post.
+    Users can create new posts by filling out the post form.
+    """
+    # Create an instance of the PostForm
     form = PostForm()
     picture_file = None
     if form.validate_on_submit():
+        # If the form is submitted and validated
         if form.picture.data:
+            # Save the uploaded picture and get the filename
             picture_file = post_picture(form.picture.data)
+            # Create a new Post object with the form data and the current user as the author
             post = Post(
                 title=form.title.data,
                 description=form.description.data,
@@ -24,23 +33,35 @@ def new_post():
                 image_file=picture_file,
                 author=current_user
             )
-
+        # Add the post to the database and commit the session
         db.session.add(post)
         db.session.commit()
-
+        # Flash a success message and redirect the user to the home page
         flash('Your post has been created!', 'success')
         return redirect(url_for('main.home'))
+    # Render the create_post.html template with the form
     return render_template('create_post.html', title='New Post', form=form, image_file=picture_file, legend='New Post')
 
 @posts.route('/post/<int:post_id>')
 @login_required
 def post(post_id):
+    """
+    Route to view a specific post.
+    Users can view the details of a post by its ID.
+    """
+    # Get the post with the specified ID from the database
     post = Post.query.get_or_404(post_id)
+     # Render the post.html template with the post data
     return render_template('post.html', title=post.title, post=post)
 
 @posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
+    """
+    Route to update an existing post.
+    Users can update their own posts by filling out the update form.
+    """
+    # Get the post with the specified ID from the database
     post = Post.query.get_or_404(post_id)
     # Check if the current user is the author of the post
     if post.author != current_user:
@@ -75,6 +96,11 @@ def update_post(post_id):
 @posts.route('/post/<int:post_id>/delete', methods=['POST'])
 @login_required
 def delete_post(post_id):
+    """
+    Route to delete an existing post.
+    Users can delete their own posts.
+    """
+    # Get the post with the specified ID from the database
     post = Post.query.get_or_404(post_id)
     # Check if the current user is the author of the post
     if post.author != current_user:
@@ -83,4 +109,3 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your Post has been deleted!', 'success')
     return redirect(url_for('main.home'))
-
