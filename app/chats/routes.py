@@ -10,6 +10,9 @@ messages = Blueprint('messages', __name__)
 @messages.route('/create_chat/<int:author_id>', methods=['GET', 'POST'])
 @login_required
 def create_chat(author_id):
+    """
+    Route to create a chat between the current user and another user (author of a post).
+    """
     # Get the current user's ID
     current_user_id = current_user.id
     
@@ -39,6 +42,9 @@ def create_chat(author_id):
 @messages.route('/chats', methods=['GET', 'POST'])
 @login_required
 def chats():
+    """
+    Route to display all chats of the current user.
+    """
     # Retrieve all chats where the current user is a participant
     chats = Chat.query.filter(or_(Chat.user1_id == current_user.id, Chat.user2_id == current_user.id)).all()
 
@@ -62,6 +68,9 @@ def chats():
 @messages.route('/chat/<chat_id>', methods=['GET'])
 @login_required
 def chat(chat_id):
+    """
+    Route to display a specific chat and its messages.
+    """
     # Retrieve the chat based on the chat ID
     chat = Chat.query.get_or_404(chat_id)
     
