@@ -1,5 +1,6 @@
 const socket = io.connect('http://' + document.domain + ':' + location.port);
 
+
 // Add an event listener for the form submission
 document.querySelectorAll('.conversation-form-submit').forEach(function(button) {
     button.addEventListener('click', function() {
