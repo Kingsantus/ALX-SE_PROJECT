@@ -110,7 +110,7 @@ class Rating(Enum):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
+# defining table for User
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(100), nullable=False)
@@ -152,6 +152,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.image_file}')"
 
+# defining table for post
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
@@ -168,7 +169,8 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
-    
+
+#defining table for review 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100), nullable=False)
@@ -179,6 +181,7 @@ class Review(db.Model):
     def __repr__(self):
         return f"Review('{self.content}')"
 
+#definining table for user agreement to rent between each other
 class Agreement(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     rented_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -190,6 +193,7 @@ class Agreement(db.Model):
     def __repr__(self) -> str:
         return f"Agreement('{self.returned}')"
     
+# defining table for experience of user to the website
 class Expirence(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
@@ -199,12 +203,14 @@ class Expirence(db.Model):
     def __repr__(self):
         return f"Review('{self.content}')"
 
+# defining the table to the chat which creates a special id
 class Chat(db.Model):
     id = db.Column(db.String(64), primary_key=True)
     user1_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     messages = db.relationship('Message', backref='chat', lazy=True)
 
+# defining table for messages
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chat_id = db.Column(db.String(64), db.ForeignKey('chat.id'), nullable=False)
